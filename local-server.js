@@ -39,7 +39,7 @@ function handleRequest(request, response) {
 }
 
 var server = http.createServer(handleRequest);
-server.listen(8088, function() {
+server.listen(process.env.PORT || 8080, function() {
     console.log("Server listening");
     console.log("===============================================");
 });
