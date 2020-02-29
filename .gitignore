@@ -3,3 +3,5 @@ doc/*
 node_modules/*
 nbproject/*
 #thefragebogen*.js
+.idea/*
+#node_modules/ws

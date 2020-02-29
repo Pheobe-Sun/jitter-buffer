@@ -5,7 +5,6 @@
         <title>ACR Project</title>
         <link rel="stylesheet" type="text/css" href="pheobe.css">
         <script src="thefragebogen.js"></script>
-<!--        <script src="send-csv.js"></script>-->
 
         <script>
         const screens = [];
@@ -111,31 +110,31 @@
         screens.push(rest2);
 
         // Test Session 3
-        for (let [fileKey, fileName] of testEntries){
-            const test = new ScreenUIElements(
-                new UIElementHTML('session', "<h1>Session 3 out of 4</h1>"),
-                new QuestionnaireItemMediaAudioRepeatable('session', "", false, `test_media/female2/${fileName}`, true, "Play"),
-                new QuestionnaireItemDefinedOne('scale', fileKey + '<br><b>Rate the quality of the audio:</b>', true, ["Bad", "Poor", "Fair", "Good", "Excellent"])
-            );
-            screens.push(test);
-        }
-
-        // Rest after Test Session 3
-        var rest3 = new ScreenUIElements(
-            new UIElementHTML('hint', "<h1>Session 3 finished</h1>"),
-            new UIElementHTML('hint', "When you are ready, click 'Next' to start <b>session 4</b>")
-        );
-        screens.push(rest3);
-
-        // Test Session 4
-        for (let [fileKey, fileName] of testEntries){
-            const test = new ScreenUIElements(
-                new UIElementHTML('session', "<h1>Session 4 out of 4</h1>"),
-                new QuestionnaireItemMediaAudioRepeatable('session', "", false, `test_media/male2/${fileName}`, true, "Play"),
-                new QuestionnaireItemDefinedOne('scale', fileKey + '<br><b>Rate the quality of the audio:</b>', true, ["Bad", "Poor", "Fair", "Good", "Excellent"])
-            );
-            screens.push(test);
-        }
+        // for (let [fileKey, fileName] of testEntries){
+        //     const test = new ScreenUIElements(
+        //         new UIElementHTML('session', "<h1>Session 3 out of 4</h1>"),
+        //         new QuestionnaireItemMediaAudioRepeatable('session', "", false, `test_media/female2/${fileName}`, true, "Play"),
+        //         new QuestionnaireItemDefinedOne('scale', fileKey + '<br><b>Rate the quality of the audio:</b>', true, ["Bad", "Poor", "Fair", "Good", "Excellent"])
+        //     );
+        //     screens.push(test);
+        // }
+        //
+        // // Rest after Test Session 3
+        // var rest3 = new ScreenUIElements(
+        //     new UIElementHTML('hint', "<h1>Session 3 finished</h1>"),
+        //     new UIElementHTML('hint', "When you are ready, click 'Next' to start <b>session 4</b>")
+        // );
+        // screens.push(rest3);
+        //
+        // // Test Session 4
+        // for (let [fileKey, fileName] of testEntries){
+        //     const test = new ScreenUIElements(
+        //         new UIElementHTML('session', "<h1>Session 4 out of 4</h1>"),
+        //         new QuestionnaireItemMediaAudioRepeatable('session', "", false, `test_media/male2/${fileName}`, true, "Play"),
+        //         new QuestionnaireItemDefinedOne('scale', fileKey + '<br><b>Rate the quality of the audio:</b>', true, ["Bad", "Poor", "Fair", "Good", "Excellent"])
+        //     );
+        //     screens.push(test);
+        // }
 
         // End page and export data
         var end = new ScreenUIElements(
@@ -144,7 +143,7 @@
         screens.push(end);
         //TODO take away 'next' button
 
-        screens.push(new ScreenWaitDataUpload(undefined,'http://localhost/1337/Desktop/webrtc/'));
+        screens.push(new ScreenWaitDataUpload(undefined,'http://localhost:8088/'));
 
         //TODO take away preview
         screens.push(new ScreenDataPreview("screenPreview", false));

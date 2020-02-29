@@ -28,6 +28,8 @@ function handleRequest(request, response) {
     }).on('end', function() {
         body = Buffer.concat(body).toString();
         console.log(body);
+        // TODO save body as csv file
+
         response.writeHead(200, {
             'Content-Type': 'text/plain'
         });
