@@ -1608,7 +1608,8 @@ class QuestionnaireItem extends UIElementInteractive {
     */
     _createQuestionNode() {
         const questionNode = document.createElement("div");
-        questionNode.innerHTML = this.question + (this.required ? "*" : "");
+        // questionNode.innerHTML = this.question + (this.required ? "*" : ""); //todo modify *
+        questionNode.innerHTML = this.question + (this.required ? "" : "");
         return questionNode;
     }
 
@@ -3018,6 +3019,7 @@ class ScreenWaitDataUpload extends ScreenWaitData {
         this.retryCount++;
         this.data = data;
 
+        // Use XMLHttpRequest
         this.request = new XMLHttpRequest();
         this.request.open("POST", this.url, true);
         this.request.timeout = this.time;

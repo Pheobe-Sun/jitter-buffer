@@ -1,92 +1,29 @@
+// using express to host page
 const express = require('express');
 const app = express();
+var bodyParser = require('body-parser');
+// app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+//
 const port = process.env.PORT || 8088;
 
-// app.listen(port, () => {
-//     console.log(`Starting server at ${port}`);
-// });
-app.use(express.static('public'));
-// app.use(express.json({ limit: '1mb' }));
-//
-// const database = new Datastore('database.db');
-// database.loadDatabase();
-//
-// app.get('/api', (request, response) => {
-//     database.find({}, (err, data) => {
-//         if (err) {
-//             response.end();
-//             return;
-//         }
-//         response.json(data);
-//     });
-// });
-//
-// app.post('/api', (request, response) => {
-//     const data = request.body;
-//     const timestamp = Date.now();
-//     data.timestamp = timestamp;
-//     database.insert(data);
-//     response.json(data);
-// });
-//
-// app.get('/weather/:latlon', async (request, response) => {
-//     console.log(request.params);
-//     const latlon = request.params.latlon.split(',');
-//     console.log(latlon);
-//     const lat = latlon[0];
-//     const lon = latlon[1];
-//     console.log(lat, lon);
-//     const api_key = process.env.API_KEY;
-//     const weather_url = `https://api.darksky.net/forecast/${api_key}/${lat},${lon}/?units=si`;
-//     const weather_response = await fetch(weather_url);
-//     const weather_data = await weather_response.json();
-//
-//     const aq_url = `https://api.openaq.org/v1/latest?coordinates=${lat},${lon}`;
-//     const aq_response = await fetch(aq_url);
-//     const aq_data = await aq_response.json();
-//
-//     const data = {
-//         weather: weather_data,
-//         air_quality: aq_data
-//     };
-//     response.json(data);
+app.use('/', express.static('public'));
+// app.use('/feedback', express.static('public/log'));
+
+app.post('/feedback', (req, res) => {
+//     consnot response = req.body;
+//     res.redirect('/feedback');
+    console.log('Message received. Hahahahahahhahahaha');
+    console.log(req.body);
+});
+ //
+
+// app.get('/', (req, res) => {
+//     console.log('request received');
+//     console.log(req.data);
 // });
 
-
-
-
-//////////
-var http = require('http');
-var server = http.Server(app);
-
-server.listen(port, () => {
+// host the test page (index.html)
+app.listen(port, () => {
     console.log(`Starting server at ${port}`);
 });
-
-//We need a function which handles requests and send response
-// function handleRequest(request, response) {
-//     console.log("Got message:");
-//
-//     response.setHeader('Access-Control-Allow-Origin', '*');
-//
-//     var body = [];
-//     request.on('data', function(chunk) {
-//         body.push(chunk);
-//     }).on('end', function() {
-//         body = Buffer.concat(body).toString();
-//         console.log(body);
-//         // TODO save body as csv file
-//
-//         response.writeHead(200, {
-//             'Content-Type': 'text/plain'
-//         });
-//         response.end("");
-//         console.log("===============================================\n");
-//     });
-// }
-//
-// var server = http.createServer(handleRequest);
-// server.listen(process.env.PORT || 8080, function() {
-//     console.log("Server listening");
-//     console.log("===============================================");
-// });

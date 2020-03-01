@@ -76,22 +76,22 @@ var rest1 = new ScreenUIElements(
 );
 screens.push(rest1);
 
-// Test Session 2
-for (let [fileKey, fileName] of testEntries){
-    const test = new ScreenUIElements(
-        new UIElementHTML('session', "<h1>Session 2 out of 4</h1>"),
-        new QuestionnaireItemMediaAudioRepeatable('session', "", false, `test_media/male1/${fileName}`, true, "Play"),
-        new QuestionnaireItemDefinedOne('scale', fileKey + '<br><b>Rate the quality of the audio:</b>', true, ["Bad", "Poor", "Fair", "Good", "Excellent"])
-    );
-    screens.push(test);
-}
-
-// Rest after Test Session 2
-var rest2 = new ScreenUIElements(
-    new UIElementHTML('hint', "<h1>Session 2 finished</h1>"),
-    new UIElementHTML('hint', "When you are ready, click 'Next' to start <b>session 3</b>")
-);
-screens.push(rest2);
+// // Test Session 2
+// for (let [fileKey, fileName] of testEntries){
+//     const test = new ScreenUIElements(
+//         new UIElementHTML('session', "<h1>Session 2 out of 4</h1>"),
+//         new QuestionnaireItemMediaAudioRepeatable('session', "", false, `test_media/male1/${fileName}`, true, "Play"),
+//         new QuestionnaireItemDefinedOne('scale', fileKey + '<br><b>Rate the quality of the audio:</b>', true, ["Bad", "Poor", "Fair", "Good", "Excellent"])
+//     );
+//     screens.push(test);
+// }
+//
+// // Rest after Test Session 2
+// var rest2 = new ScreenUIElements(
+//     new UIElementHTML('hint', "<h1>Session 2 finished</h1>"),
+//     new UIElementHTML('hint', "When you are ready, click 'Next' to start <b>session 3</b>")
+// );
+// screens.push(rest2);
 
 // Test Session 3
 // for (let [fileKey, fileName] of testEntries){
@@ -121,7 +121,7 @@ screens.push(rest2);
 // }
 
 // Export data and end test
-screens.push(new ScreenWaitDataUpload(undefined,'http://localhost:8088/'));
+screens.push(new ScreenWaitDataUpload(undefined,'/feedback'));
 
 var end = new ScreenUIElements(
     new UIElementHTML('hint', "<h1>All sessions finished<br>Thank you!</h1>"),
