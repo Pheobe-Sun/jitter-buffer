@@ -1,9 +1,9 @@
 const screens = [];
-//TODO generate training files
 
-// const training_samples = {
-//
-// };
+const training_samples = {
+    'Training 1 out of 5': 'a.wav',
+    'Training 2 out of 5': 'b.wav',
+};
 
 const test_samples = {
     'Test 1 out of 20': 'arrival_26_43.rtp_buffer_35_step_-1.wav',
@@ -28,47 +28,50 @@ const test_samples = {
     // 'Test 20 out of 20': 'arrival_26_63.rtp_buffer_25_step_-2.wav',
 };
 
+// Welcome page - tested
+// const welcome = new ScreenUIElements(
+//     new UIElementHTML('hint', "<h1>Instructions</h1>"),
+//     new UIElementHTML('hint', "<h3>This is a test for an audio quality study.</h3>"),
+//     new UIElementHTML('hint', "The whole test takes about <b>10-15 minutes</b> to finish.<br>You will go through a <b>training session</b> before the actual test.<br>Click 'Next' to start the training session."),
+// );
+// screens.push(welcome);
+
 // Training page
-const training = new ScreenUIElements(
-    new UIElementHTML('hint', "<h1>Training</h1>"),
-    new UIElementHTML('hint', "1. Click 'Play' to start audio. You may replay it if you want."),
-    new QuestionnaireItemMediaAudioRepeatable(undefined, "", false, "test_media/female1_14kHz.wav", true, "Play"),
-    new UIElementHTML('hint', "2. Answer the question below."),
-    new QuestionnaireItemDefinedOne(undefined, "<b>Rate the quality of the audio:</b>", true, ["Bad", "Poor", "Fair", "Good", "Excellent"])
-);
-screens.push(training);
-
-//TODO generate training files
-
-// const trainingEntries = Object.entries(training_samples);
-// for (let [fileKey, fileName] of trainingEntries){
-//     const training = new ScreenUIElements(
-//         new UIElementHTML('hint', "<h1>Training</h1>"),
-//         new UIElementHTML('hint', "1. Click on play to start audio. You may replay it if you want."),
-//         new QuestionnaireItemMediaAudioRepeatable(undefined, `${fileKey} out of 5`, false, `media/training/${fileName}`, true, "Play"),
-//         new UIElementHTML('hint', "2. Answer the question below."),
-//         new QuestionnaireItemDefinedOne(undefined, "<h3>Rate the quality of the audio<br></h3>", true, ["Excellent", "Good", "Fair", "Poor", "Bad"])
-//     );
-//     screens.push(training);
-// }
+const trainingEntries = Object.values(training_samples);
+var trainingCount = 0;
+for (let entry of trainingEntries){
+    trainingCount ++;
+    const training = new ScreenUIElements(
+        new UIElementHTML('hint', "<h1>Training Session</h1>"),
+        new UIElementHTML('hint', 'Training '+ trainingCount +' out of 5'),
+        new UIElementHTML('hint', "1. Click 'Play' to start the audio.<br>You may replay it if you hit 'Play' again."),
+        new QuestionnaireItemMediaAudioRepeatable(undefined, '', false, `media/training/${entry}`, true, "Play"),
+        new UIElementHTML('hint', "2. Answer the question below."),
+        new QuestionnaireItemDefinedOne(undefined, "<h3>Rate the quality of the audio<br></h3>", true, ["Bad", "Poor", "Fair", "Good", "Excellent"])
+    );
+    screens.push(training);
+}
 
 // // Prompt page
 // var prompt1 = new ScreenUIElements(
 //     new UIElementHTML('hint', "<h1>Training finished</h1>"),
-//     new UIElementHTML('hint', "When you are ready, click 'Next' to proceed to <b>test sessions</b> ")
+//     new UIElementHTML('hint', "When you are ready, click 'Next' to proceed to the <b>test sessions.</b> ")
 // );
 // screens.push(prompt1);
 //
-// // Test Session 1
-// const testEntries = Object.entries(test_samples);
-// for (let [fileKey, fileName] of testEntries){
-//     const test = new ScreenUIElements(
-//         new UIElementHTML('session', "<h1>Session 1 out of 4</h1>"),
-//         new QuestionnaireItemMediaAudioRepeatable('session', "", false, `test_media/female1/${fileName}`, true, "Play"),
-//         new QuestionnaireItemDefinedOne('scale', fileKey + '<br><b>Rate the quality of the audio:</b>', true, ["Bad", "Poor", "Fair", "Good", "Excellent"])
-//     );
-//     screens.push(test);
-// }
+// Test Session 1
+const testEntries = Object.entries(test_samples);
+var testCount = 0;
+for (let [fileKey, fileName] of testEntries){
+    testCount ++;
+    const test = new ScreenUIElements(
+        new UIElementHTML('session', "<h1>Session 1 out of 4</h1>"),
+        new UIElementHTML('session', 'Test '+ testCount +' out of 20'),
+        new QuestionnaireItemMediaAudioRepeatable('session', "", false, `test_media/female1/${fileName}`, true, "Play"),
+        new QuestionnaireItemDefinedOne('scale', '<h3>Rate the quality of the audio:</h3>', true, ["Bad", "Poor", "Fair", "Good", "Excellent"])
+    );
+    screens.push(test);
+}
 //
 // // Rest after Test Session 1
 // var rest1 = new ScreenUIElements(
@@ -122,19 +125,15 @@ screens.push(training);
 // }
 
 // Export data and end test
-screens.push(new ScreenWaitDataUpload(undefined,'//localhost:8088'));
+screens.push(new ScreenWaitDataUpload(undefined, '//localhost:8088')); //'//74.116.241.133:3389'
 
 var end = new ScreenUIElements(
     new UIElementHTML('hint', "<h1>All sessions finished<br>Thank you!</h1>"),
 );
 end.setPaginateUI(null);
 screens.push(end);
-//TODO take away 'next' button
 
-
-
-//TODO take away preview
-screens.push(new ScreenDataPreview("screenPreview", false));
+// screens.push(new ScreenDataPreview("screenPreview", false));
 
 const screenController = new ScreenController(screens);
 
@@ -147,6 +146,7 @@ function start() {
     screenController.init(document.body);
     screenController.start();
 }
+
 window.addEventListener('DOMContentLoaded', (event) => {
     console.log('DOM fully loaded and parsed');
     start();

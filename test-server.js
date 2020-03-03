@@ -44,6 +44,6 @@ function handleRequest(request, response) {
 
 var server = http.createServer(handleRequest);
 server.listen(process.env.PORT || 8088, function() {
-    console.log("Server listening")
+    console.log("Server listening at 8080")
     console.log("===============================================");
 });
