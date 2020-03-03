@@ -3,22 +3,33 @@ const express = require('express');
 const app = express();
 var bodyParser = require('body-parser');
 // app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-//
-const port = process.env.PORT || 8088;
+app.use(bodyParser.raw({ extended: true })); // for parsing application/x-www-form-urlencoded
+// app.use(bodyParser.raw({type: 'application/'}));
+// var urlencodedParser = bodyParser.urlencoded({ extended: true });
+
+const port = process.env.PORT || 3000;
 
 app.use('/', express.static('public'));
-// app.use('/feedback', express.static('public/log'));
+app.use('/feedback', express.static('public/log'));
 
-app.post('/feedback', (req, res) => {
-//     consnot response = req.body;
-//     res.redirect('/feedback');
-    console.log('Message received. Hahahahahahhahahaha');
-    console.log(req.body);
-});
- //
+// Post result to MongoDB
+// mongoose.connect('mongodb+srv://Pheobe:qxlab2020@cluster0-oecdm.mongodb.net/test?retryWrites=true&w=majority');
 
-// app.get('/', (req, res) => {
+
+// TEST
+// receive csv data from the page
+// app.post('/', (req, res) => {
+// //     res.redirect('/feedback');
+//     console.log('data ready to send ...');
+//     console.log(req.body.data);
+// });
+
+
+
+// retrieve data from /feedback page
+// app.get('/feedback', (req, res) => {
+
+    // res.sendFile(__dirname + '/public/log/index.html');
 //     console.log('request received');
 //     console.log(req.data);
 // });

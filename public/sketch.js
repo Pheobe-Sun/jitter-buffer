@@ -39,6 +39,7 @@ const training = new ScreenUIElements(
 screens.push(training);
 
 //TODO generate training files
+
 // const trainingEntries = Object.entries(training_samples);
 // for (let [fileKey, fileName] of trainingEntries){
 //     const training = new ScreenUIElements(
@@ -51,30 +52,30 @@ screens.push(training);
 //     screens.push(training);
 // }
 
-// Prompt page
-var prompt1 = new ScreenUIElements(
-    new UIElementHTML('hint', "<h1>Training finished</h1>"),
-    new UIElementHTML('hint', "When you are ready, click 'Next' to proceed to <b>test sessions</b> ")
-);
-screens.push(prompt1);
-
-// Test Session 1
-const testEntries = Object.entries(test_samples);
-for (let [fileKey, fileName] of testEntries){
-    const test = new ScreenUIElements(
-        new UIElementHTML('session', "<h1>Session 1 out of 4</h1>"),
-        new QuestionnaireItemMediaAudioRepeatable('session', "", false, `test_media/female1/${fileName}`, true, "Play"),
-        new QuestionnaireItemDefinedOne('scale', fileKey + '<br><b>Rate the quality of the audio:</b>', true, ["Bad", "Poor", "Fair", "Good", "Excellent"])
-    );
-    screens.push(test);
-}
-
-// Rest after Test Session 1
-var rest1 = new ScreenUIElements(
-    new UIElementHTML('hint', "<h1>Session 1 finished</h1>"),
-    new UIElementHTML('hint', "When you are ready, click 'Next' to start <b>session 2</b>")
-);
-screens.push(rest1);
+// // Prompt page
+// var prompt1 = new ScreenUIElements(
+//     new UIElementHTML('hint', "<h1>Training finished</h1>"),
+//     new UIElementHTML('hint', "When you are ready, click 'Next' to proceed to <b>test sessions</b> ")
+// );
+// screens.push(prompt1);
+//
+// // Test Session 1
+// const testEntries = Object.entries(test_samples);
+// for (let [fileKey, fileName] of testEntries){
+//     const test = new ScreenUIElements(
+//         new UIElementHTML('session', "<h1>Session 1 out of 4</h1>"),
+//         new QuestionnaireItemMediaAudioRepeatable('session', "", false, `test_media/female1/${fileName}`, true, "Play"),
+//         new QuestionnaireItemDefinedOne('scale', fileKey + '<br><b>Rate the quality of the audio:</b>', true, ["Bad", "Poor", "Fair", "Good", "Excellent"])
+//     );
+//     screens.push(test);
+// }
+//
+// // Rest after Test Session 1
+// var rest1 = new ScreenUIElements(
+//     new UIElementHTML('hint', "<h1>Session 1 finished</h1>"),
+//     new UIElementHTML('hint', "When you are ready, click 'Next' to start <b>session 2</b>")
+// );
+// screens.push(rest1);
 
 // // Test Session 2
 // for (let [fileKey, fileName] of testEntries){
@@ -121,7 +122,7 @@ screens.push(rest1);
 // }
 
 // Export data and end test
-screens.push(new ScreenWaitDataUpload(undefined,'/feedback'));
+screens.push(new ScreenWaitDataUpload(undefined,'//localhost:8088'));
 
 var end = new ScreenUIElements(
     new UIElementHTML('hint', "<h1>All sessions finished<br>Thank you!</h1>"),

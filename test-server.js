@@ -22,24 +22,28 @@ function handleRequest(request, response) {
 
     response.setHeader('Access-Control-Allow-Origin', '*');
 
-    var body = [];
-    request.on('data', function(chunk) {
-        body.push(chunk);
-    }).on('end', function() {
-        body = Buffer.concat(body).toString();
-        console.log(body);
-        // TODO save body as csv file
-
-        response.writeHead(200, {
-            'Content-Type': 'text/plain'
-        });
-        response.end("");
-        console.log("===============================================\n");
+    request.on('data', function(data){
+        console.log(data);
     });
+
+    // var body = [];
+    // request.on('data', function(chunk) {
+    //     body.push(chunk);
+    // }).on('end', function() {
+    //     body = Buffer.concat(body).toString();
+    //     console.log(body);
+    //     // TODO save body as csv file
+    //
+    //     response.writeHead(200, {
+    //         'Content-Type': 'text/plain'
+    //     });
+    //     response.end("");
+    //     console.log("===============================================\n");
+    // });
 }
 
 var server = http.createServer(handleRequest);
-server.listen(process.env.PORT || 8080, function() {
-    console.log("Server listening");
+server.listen(process.env.PORT || 8088, function() {
+    console.log("Server listening")
     console.log("===============================================");
 });
