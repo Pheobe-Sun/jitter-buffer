@@ -2,10 +2,12 @@ build/*
 doc/*
 node_modules/*
 nbproject/*
-thefragebogen*.js
+#thefragebogen*.js
 .idea/*
 src/*
 #node_modules/ws
+### Below are media files ###
+media/*
 ### Below are test files ###
 test-mongoose.js
 test-pageToMongoose.js
