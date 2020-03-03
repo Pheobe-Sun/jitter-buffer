@@ -67,7 +67,7 @@ for (let [fileKey, fileName] of testEntries){
     const test = new ScreenUIElements(
         new UIElementHTML('session', "<h1>Session 1 out of 4</h1>"),
         new UIElementHTML('session', 'Test '+ testCount +' out of 20'),
-        new QuestionnaireItemMediaAudioRepeatable('session', "", false, `test_media/female1/${fileName}`, true, "Play"),
+        new QuestionnaireItemMediaAudioRepeatable('session', '', false, `test_media/female1/${fileName}`, true, "Play"),
         new QuestionnaireItemDefinedOne('scale', '<h3>Rate the quality of the audio:</h3>', true, ["Bad", "Poor", "Fair", "Good", "Excellent"])
     );
     screens.push(test);
