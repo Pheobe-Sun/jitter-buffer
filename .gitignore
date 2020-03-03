@@ -6,3 +6,9 @@ thefragebogen*.js
 .idea/*
 src/*
 #node_modules/ws
+### Below are test files ###
+test-mongoose.js
+test-pageToMongoose.js
+feedback.csv
+index2.js
+public/log/*
