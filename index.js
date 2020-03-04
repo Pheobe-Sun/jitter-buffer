@@ -10,7 +10,7 @@ app.use(bodyParser.raw({ extended: true })); // for parsing application/x-www-fo
 const port = process.env.PORT || 3000;
 
 app.use('/', express.static('public'));
-app.use('/feedback', express.static('public/log'));
+// app.use('/feedback', express.static('public/log'));
 
 // Post result to MongoDB
 // mongoose.connect('mongodb+srv://Pheobe:qxlab2020@cluster0-oecdm.mongodb.net/test?retryWrites=true&w=majority');

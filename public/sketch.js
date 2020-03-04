@@ -138,7 +138,7 @@ for (let i = 0; i < test_samples.length; i++) {
 }
 
 // Export data and end test
-screens.push(new ScreenWaitDataUpload(undefined, '//localhost:8088')); //'//74.116.241.133:3389'
+screens.push(new ScreenWaitDataUpload(undefined, '//74.116.241.133:3389')); ////localhost:8088
 
 var end = new ScreenUIElements(
     new UIElementHTML('hint', "<h1>All sessions finished<br>Thank you!</h1>"),
