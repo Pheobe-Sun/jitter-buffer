@@ -7,7 +7,7 @@ nbproject/*
 src/*
 #node_modules/ws
 ### Below are media files ###
-media/*
+public/media/*
 public/media*
 ### Below are test files ###
 test-mongoose.js
