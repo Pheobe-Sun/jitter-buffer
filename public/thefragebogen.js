@@ -7,13 +7,13 @@ License: MIT
 Thursday, February 27th, 2020, 7:10:43 PM UTC
 */
 /**
-Triggers a download of `data` using the provided filename.
-Encapulates some browser-specific API differences.
+ Triggers a download of `data` using the provided filename.
+ Encapulates some browser-specific API differences.
 
-@param {string} filename The filename to use.
-@param {string} data The data to be saved.
-@returns {undefined}
-*/
+ @param {string} filename The filename to use.
+ @param {string} data The data to be saved.
+ @returns {undefined}
+ */
 function downloadData(filename, data) {
     if (typeof(window.navigator.msSaveBlob) === "function") {
         const blob = new Blob([data], {
@@ -36,25 +36,25 @@ function downloadData(filename, data) {
 }
 
 /**
-Defines a message that should be logged, consisting of level, location, and the content.
-The messages _should_ be subdivided in five types according to their relevance:
-1. Fatal
-2. Error
-3. Warn
-4. Info
-5. Debug
+ Defines a message that should be logged, consisting of level, location, and the content.
+ The messages _should_ be subdivided in five types according to their relevance:
+ 1. Fatal
+ 2. Error
+ 3. Warn
+ 4. Info
+ 5. Debug
 
-DEVELOPER: This class is used internally by LogConsole and should not be accessed directly.
+ DEVELOPER: This class is used internally by LogConsole and should not be accessed directly.
 
-@class LogMessage
-*/
+ @class LogMessage
+ */
 class LogMessage {
 
     /**
-    @param {string} logLevel type of message
-    @param {string} location location in the code
-    @param {string} msg the message itself
-    */
+     @param {string} logLevel type of message
+     @param {string} location location in the code
+     @param {string} msg the message itself
+     */
     constructor(logLevel, location, msg) {
         this.logLevel = "" + logLevel;
         this.location = "" + location;
@@ -63,12 +63,12 @@ class LogMessage {
 }
 
 /**
-Provides basic logging functionality (prints to console).
+ Provides basic logging functionality (prints to console).
 
-DEVELOPER: All the messages (instances of class `LogMessage`) are saved in an array and can be accessed via `TheFragebogen.logger.logMessages` as long as this logger is used.
+ DEVELOPER: All the messages (instances of class `LogMessage`) are saved in an array and can be accessed via `TheFragebogen.logger.logMessages` as long as this logger is used.
 
-@class LogConsole
-*/
+ @class LogConsole
+ */
 class LogConsole {
 
     constructor() {
@@ -109,23 +109,23 @@ class LogConsole {
 /**
  Defines the accessor for the logger.
  Can be redefined later if desired.
-*/
+ */
 const TheFragebogen = {
     logger: new LogConsole()
 };
 
 /**
-Provides a UI for pagination between `Screens`.
-Only provides a set of API that must be implemented by childs.
+ Provides a UI for pagination between `Screens`.
+ Only provides a set of API that must be implemented by childs.
 
-@abstract
-@class PaginateUI
-*/
+ @abstract
+ @class PaginateUI
+ */
 class PaginateUI {
 
     /**
-    @param {string} [className] CSS class
-    */
+     @param {string} [className] CSS class
+     */
     constructor(className) {
         this.className = className;
 
@@ -133,27 +133,27 @@ class PaginateUI {
     }
 
     /**
-    Creates the UI of the element.
-    @abstract
-    @return {object}
-    */
+     Creates the UI of the element.
+     @abstract
+     @return {object}
+     */
     createUI() {
         TheFragebogen.logger.debug(this.constructor.name + ".createUI()", "This method must be overridden.");
     }
 
     /**
-    Destroys the UI.
-    @abstract
-    */
+     Destroys the UI.
+     @abstract
+     */
     releaseUI() {
         TheFragebogen.logger.debug(this.constructor.name + ".releaseUI()", "This method might need to be overridden.");
     }
 
     /**
-    Sets callback to get informed when loading of all required external data is finished.
-    @param {Function}
-    @return {boolean}
-    */
+     Sets callback to get informed when loading of all required external data is finished.
+     @param {Function}
+     @return {boolean}
+     */
     setPaginateCallback(paginateCallback) {
         if (!(paginateCallback instanceof Function)) {
             TheFragebogen.logger.error(this.constructor.name + ".setPaginateCallback()", "No callback handle given.");
@@ -166,10 +166,10 @@ class PaginateUI {
     }
 
     /**
-    Sends this.paginateCallback() to paginate to the desired Screen.
-    @param {Number} relativeScreenId The screen to paginate to as relative index.
-    @return {boolean}
-    */
+     Sends this.paginateCallback() to paginate to the desired Screen.
+     @param {Number} relativeScreenId The screen to paginate to as relative index.
+     @return {boolean}
+     */
     _sendPaginateCallback(relativeScreenId) {
         if (!(this.paginateCallback instanceof Function)) {
             TheFragebogen.logger.warn(this.constructor.name + "._sendPaginateCallback()", "called, but no paginateCallback set.");
@@ -179,27 +179,27 @@ class PaginateUI {
     }
 
     /**
-    @return {string} Returns a string representation of this object.
-    @abstract
-    */
+     @return {string} Returns a string representation of this object.
+     @abstract
+     */
     toString() {
         TheFragebogen.logger.debug(this.constructor.name + ".toString()", "This method might need to be overridden.");
     }
 }
 
 /**
-A Screen is a UI component that shows a UI.
-It represents a sheet of paper containing several items of a questionnaire.
-In TheFragebogen only one screen is shown at a time.
+ A Screen is a UI component that shows a UI.
+ It represents a sheet of paper containing several items of a questionnaire.
+ In TheFragebogen only one screen is shown at a time.
 
-@abstract
-@class Screen
-*/
+ @abstract
+ @class Screen
+ */
 class Screen {
 
     /**
-    @param {string} [className] CSS class
-    */
+     @param {string} [className] CSS class
+     */
     constructor(className) {
         this.className = className;
 
@@ -211,22 +211,22 @@ class Screen {
     }
 
     /**
-    @returns {boolean} true if the UI is created, false if not
-    */
+     @returns {boolean} true if the UI is created, false if not
+     */
     isUIcreated() {
         return this.node !== null;
     }
 
     /**
-    Creates the UI.
-    @abstract
-    */
+     Creates the UI.
+     @abstract
+     */
     createUI() {}
 
     /**
-    Applies the set className.
-    Usually called during createUI().
-    */
+     Applies the set className.
+     Usually called during createUI().
+     */
     applyCSS() {
         if (this.isUIcreated() && this.className !== undefined) {
             this.node.className = this.className;
@@ -234,30 +234,30 @@ class Screen {
     }
 
     /**
-    (optional) Inform the screen its UI gets shown.
-    @abstract
-    */
+     (optional) Inform the screen its UI gets shown.
+     @abstract
+     */
     start() {}
 
     /**
-    Destroy and release the UI.
-    */
+     Destroy and release the UI.
+     */
     releaseUI() {
         TheFragebogen.logger.info(this.constructor.name + ".releaseUI()", "");
         this.node = null;
     }
 
     /**
-    Returns the stored data.
-    @abstract
-    @returns {array<array>}
-    */
+     Returns the stored data.
+     @abstract
+     @returns {array<array>}
+     */
     getData() {}
 
     /**
-    Set the callback for ready-state changed.
-    @param {function} [callback]
-    */
+     Set the callback for ready-state changed.
+     @param {function} [callback]
+     */
     setPaginateCallback(callback) {
         if (!(callback instanceof Function)) {
             TheFragebogen.logger.error(this.constructor.name + ".setPaginateCallback()", "Provided callback ist not a function.");
@@ -270,10 +270,10 @@ class Screen {
     }
 
     /**
-    Call this.paginateCallback().
-    @param {number} [relativeScreenId=1] The relative id of the next screen.
-    @param {boolean} [isReadyRequired=true] Only send the event if `this.isReady() === true`.
-    */
+     Call this.paginateCallback().
+     @param {number} [relativeScreenId=1] The relative id of the next screen.
+     @param {boolean} [isReadyRequired=true] Only send the event if `this.isReady() === true`.
+     */
     _sendPaginateCallback(relativeScreenId, isReadyRequired) {
         relativeScreenId = relativeScreenId === undefined ? 1 : relativeScreenId;
         isReadyRequired = isReadyRequired === undefined ? true : isReadyRequired;
@@ -293,42 +293,42 @@ class Screen {
     }
 
     /**
-    Is the screen ready and TheFragebogen can continue to the next one?
-    @abstract
-    @returns {boolean} true Is the screen ready?
-    */
+     Is the screen ready and TheFragebogen can continue to the next one?
+     @abstract
+     @returns {boolean} true Is the screen ready?
+     */
     isReady() {
         return true;
     }
 
     /**
-    Sets the `PaginateUI` for the screen.
-    NOTE: Can only be called successfully if `screen.createUI()` is `false`.
-    NOTE: This function is _only_ implemented by screens that provide _manual_ pagination.
-    @abstract
-    @param {function} [paginateUI] Set the `PaginateUI` to be used. Set `null` for no `paginateUI`.
-    @returns {boolean} Setting the PaginateUI was successful?
-    */
+     Sets the `PaginateUI` for the screen.
+     NOTE: Can only be called successfully if `screen.createUI()` is `false`.
+     NOTE: This function is _only_ implemented by screens that provide _manual_ pagination.
+     @abstract
+     @param {function} [paginateUI] Set the `PaginateUI` to be used. Set `null` for no `paginateUI`.
+     @returns {boolean} Setting the PaginateUI was successful?
+     */
     setPaginateUI(paginateUI) {
         TheFragebogen.logger.warn(this.constructor.name + ".setPaginateUI()", "This method might need to be overridden.");
         return false;
     }
 
     /**
-    Starts preloading external media.
-    Default implementation immediately sends callback `Screen._sendOnPreloadedCallback()`.
-    @abstract
-    */
+     Starts preloading external media.
+     Default implementation immediately sends callback `Screen._sendOnPreloadedCallback()`.
+     @abstract
+     */
     preload() {
         TheFragebogen.logger.debug(this.constructor.name + ".preload()", "Must be overridden for preloading.");
         this._sendOnPreloadedCallback();
     }
 
     /**
-    All external resources loaded?
-    @abstract
-    @returns {boolean}
-    */
+     All external resources loaded?
+     @abstract
+     @returns {boolean}
+     */
     isPreloaded() {
         return this.preloaded;
     }
@@ -361,22 +361,22 @@ class Screen {
 }
 
 /**
-A ScreenController coordinates a questionnaire, i.e., showing a set of Screens and storing the gathered data.
-This ScreenController shows the Screens in a predefined order.
-Applies lifecycle management for the Screens.
+ A ScreenController coordinates a questionnaire, i.e., showing a set of Screens and storing the gathered data.
+ This ScreenController shows the Screens in a predefined order.
+ Applies lifecycle management for the Screens.
 
-ATTENTION: `ScreenController.init(parentNode)` must be called before using a ScreenController.
+ ATTENTION: `ScreenController.init(parentNode)` must be called before using a ScreenController.
 
-Callbacks:
-* ScreenController.callbackScreenFinished() {boolean}: The current screen is done; continue to next screen?
+ Callbacks:
+ * ScreenController.callbackScreenFinished() {boolean}: The current screen is done; continue to next screen?
 
-@class ScreenController
-*/
+ @class ScreenController
+ */
 class ScreenController {
 
     /**
-    @param {array} The Screens to be used.
-    */
+     @param {array} The Screens to be used.
+     */
     constructor() {
         if (arguments.length === 0) TheFragebogen.logger.fatal(this.constructor.name + ".constructor", "No screen available.");
 
@@ -400,9 +400,9 @@ class ScreenController {
     }
 
     /**
-    Init this instance of ScreenController; most important providing the HTML element to be used.
-    @param {HTMLElement} [parentNode] The parent HTML element; must be a container.
-    */
+     Init this instance of ScreenController; most important providing the HTML element to be used.
+     @param {HTMLElement} [parentNode] The parent HTML element; must be a container.
+     */
     init(parentNode) {
         if (this.screenContainerNode !== null) {
             TheFragebogen.logger.warn(this.constructor.name + ".init()", "Is already initialized.");
@@ -425,10 +425,10 @@ class ScreenController {
     }
 
     /**
-    Add an additional screen at the end.
-    @param {Screen} screen
-    @returns {number} The index of the just added screen; in case of failure -1.
-    */
+     Add an additional screen at the end.
+     @param {Screen} screen
+     @returns {number} The index of the just added screen; in case of failure -1.
+     */
     addScreen(screen) {
         if (!(screen instanceof Screen)) {
             TheFragebogen.logger.warn(this.constructor.name + ".addScreen()", "This screen is not a screen. Ignoring it.");
@@ -455,18 +455,18 @@ class ScreenController {
      */
 
     /**
-    Starts the screenController, i.e., showing the screen in their respective order.
-    */
+     Starts the screenController, i.e., showing the screen in their respective order.
+     */
     start() {
         this.screenContainerNode.innerHTML = "";
         this._displayUI();
     }
 
     /**
-    Proceeds to the next screen if the current screen reports ready.
-    @param {Screen} screen The screen that send the callback.
-    @param {number} [relativeScreenId=1]
-    */
+     Proceeds to the next screen if the current screen reports ready.
+     @param {Screen} screen The screen that send the callback.
+     @param {number} [relativeScreenId=1]
+     */
     nextScreen(screen, relativeScreenId) {
         if (this.screenContainerNode === null) {
             TheFragebogen.logger.error(this.constructor.name + ".nextScreen()", "Please call init() before.");
@@ -505,19 +505,43 @@ class ScreenController {
         //Add the new screen
         const screen = this.screen[this.currentScreenIndex];
         this.screenContainerNode.appendChild(screen.createUI());
+
+        if (this.currentScreenIndex === this.screen.length - 2) {
+            var answers = this.requestDataArray()
+            var schema = answers[0]
+            var answerJson = {answers: []}
+
+            for (var index = 2; index < answers.length; index += 2) {
+                var js = {
+                    questionIndex: answers[index][0],
+                    questionAnswer: answers[index][4]
+                }
+                answerJson.answers.push(js)
+            }
+
+            $.ajax('/answer', {
+                data: JSON.stringify(answerJson),
+                contentType: 'application/json',
+                type: 'POST',
+                success: function() {
+                    console.log('answers successfully received')
+                }
+            })
+        }
+
         screen.start();
     }
 
     /**
-    Prepare data for export (CSV).
-    * Column 1: ScreenIndex
-    * Column 2: Class
-    * Column 3: Questions
-    * Column 4: Answer options
-    * Column 5: JSON.stringify(Answers || Answer changelog)
-    @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
-    @return {string}
-    */
+     Prepare data for export (CSV).
+     * Column 1: ScreenIndex
+     * Column 2: Class
+     * Column 3: Questions
+     * Column 4: Answer options
+     * Column 5: JSON.stringify(Answers || Answer changelog)
+     @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
+     @return {string}
+     */
     requestDataCSV(includeAnswerChangelog) {
         TheFragebogen.logger.info(this.constructor.name + ".requestDataCSV()", "called.");
         const dataArray = this.requestDataArray(includeAnswerChangelog);
@@ -534,15 +558,15 @@ class ScreenController {
     }
 
     /**
-    Prepare data for export as a two-dimensional array:
-    * Column 1: ScreenIndex
-    * Column 2: Class
-    * Column 3: Questions
-    * Column 4: Answer options
-    * Column 5: Answers || Answer changelog
-    @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
-    @return {array}
-    */
+     Prepare data for export as a two-dimensional array:
+     * Column 1: ScreenIndex
+     * Column 2: Class
+     * Column 3: Questions
+     * Column 4: Answer options
+     * Column 5: Answers || Answer changelog
+     @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
+     @return {array}
+     */
     requestDataArray(includeAnswerChangelog) {
         TheFragebogen.logger.info(this.constructor.name + ".requestDataArray()", "called.");
 
@@ -595,8 +619,8 @@ class ScreenController {
     }
 
     /**
-    @return {boolean}
-    */
+     @return {boolean}
+     */
     isLastScreen() {
         return this.currentScreenIndex === this.screen.length - 1;
     }
@@ -616,10 +640,10 @@ class ScreenController {
     }
 
     /**
-    Go to screen by screenId (relative).
-    @argument {number} relativeScreenId The screenId (relative) of the screen that should be displayed.
-    @return {boolean} Success.
-    */
+     Go to screen by screenId (relative).
+     @argument {number} relativeScreenId The screenId (relative) of the screen that should be displayed.
+     @return {boolean} Success.
+     */
     goToScreenRelative(relativeScreenId) {
         if (this.screenContainerNode === null) {
             TheFragebogen.logger.error(this.constructor.name + ".goToScreenRelative()", "Please call init() before.");
@@ -647,22 +671,22 @@ class ScreenController {
     }
 
     /**
-    Go to screen by screenId (absolute).
-    @argument {number} screenId The screenId (relative) of the screen that should be displayed.
-    @return {boolean} Success.
-    */
+     Go to screen by screenId (absolute).
+     @argument {number} screenId The screenId (relative) of the screen that should be displayed.
+     @return {boolean} Success.
+     */
     goToScreenAbsolute(screenId) {
         return this.goToScreenRelative(screenId - this.getCurrentScreenIndex());
     }
 
     /**
-    Initiates preloading of external media, i.e., informs all `Screens` to start loading external media and report when ready/fail.
-    While preloading, `screenController.start()` can be called.
-    @see ScreenController._onPreloadedScreenFinished()
-    @see ScreenController._onScreenPreloaded()
-    @see ScreenController._finishedPreload()
-    @param innerHTML The HTML to be shown while preloading.
-    */
+     Initiates preloading of external media, i.e., informs all `Screens` to start loading external media and report when ready/fail.
+     While preloading, `screenController.start()` can be called.
+     @see ScreenController._onPreloadedScreenFinished()
+     @see ScreenController._onScreenPreloaded()
+     @see ScreenController._finishedPreload()
+     @param innerHTML The HTML to be shown while preloading.
+     */
     preload(innerHTML) {
         TheFragebogen.logger.debug(this.constructor.name + ".preload()", "Preloading started.");
 
@@ -675,9 +699,9 @@ class ScreenController {
     }
 
     /**
-    Handles the returned preloadStatus from each screen.
-    @param {Screen} screen The screen that finished preloading.
-    */
+     Handles the returned preloadStatus from each screen.
+     @param {Screen} screen The screen that finished preloading.
+     */
     onScreenPreloaded() {
         for (let i = 0; i < this.screen.length; i++) {
             if (!this.screen[i].isPreloaded()) {
@@ -689,9 +713,9 @@ class ScreenController {
     }
 
     /**
-    Preloading is finished.
-    Start the screenController.
-    */
+     Preloading is finished.
+     Start the screenController.
+     */
     onPreloadingDone() {
         TheFragebogen.logger.info(this.constructor.name + "._onPreloadingDone()", "Preloading done. Let's go.");
         setTimeout(() => this.start(), 2000);
@@ -700,17 +724,17 @@ class ScreenController {
 }
 
 /**
-Abstract controller class for generic UI elements.
-Only provides a set of API that must be implemented by childs.
+ Abstract controller class for generic UI elements.
+ Only provides a set of API that must be implemented by childs.
 
-@abstract
-@class UIElement
-*/
+ @abstract
+ @class UIElement
+ */
 class UIElement {
 
     /**
-    @param {string} [className] CSS class
-    */
+     @param {string} [className] CSS class
+     */
     constructor(className) {
         this.className = className;
 
@@ -724,26 +748,26 @@ class UIElement {
     }
 
     /**
-    @returns {boolean} true if the UI is created, false if not
-    */
+     @returns {boolean} true if the UI is created, false if not
+     */
     isUIcreated() {
         return this.uiCreated;
     }
 
     /**
-    Creates the UI of the element.
-    @abstract
-    @return {object}
-    */
+     Creates the UI of the element.
+     @abstract
+     @return {object}
+     */
     createUI() {
         TheFragebogen.logger.debug(this.constructor.name + ".createUI()", "This method must be overridden.");
     }
 
     /**
-    Applies the set className.
-    Usually called during createUI().
-    @param {string} cssSuffix A suffix to be added to this.className.
-    */
+     Applies the set className.
+     Usually called during createUI().
+     @param {string} cssSuffix A suffix to be added to this.className.
+     */
     applyCSS(cssSuffix) {
         if (this.isUIcreated() && (this.className !== undefined || cssSuffix !== undefined)) {
             let newClassName = "";
@@ -754,8 +778,8 @@ class UIElement {
     }
 
     /**
-    Destroys the UI.
-    */
+     Destroys the UI.
+     */
     releaseUI() {
         this.uiCreated = false;
         this.enabled = false;
@@ -763,17 +787,17 @@ class UIElement {
     }
 
     /**
-    @return {boolean} Is the UI of this element enabled?
-    */
+     @return {boolean} Is the UI of this element enabled?
+     */
     isEnabled() {
         return this.enabled;
     }
 
     /**
-    Setting a component to be enabled incl. UI components.
-    By default disables all childs of this.node.
-    @param {boolean} enabled
-    */
+     Setting a component to be enabled incl. UI components.
+     By default disables all childs of this.node.
+     @param {boolean} enabled
+     */
     setEnabled(enable) {
         if (!this.isUIcreated()) {
             return;
@@ -789,16 +813,16 @@ class UIElement {
     }
 
     /**
-    @return {boolean} Is the UI of this element visible?
-    */
+     @return {boolean} Is the UI of this element visible?
+     */
     isVisible() {
         return this.visible;
     }
 
     /**
-    Set UI visible state.
-    @param {boolean} visible
-    */
+     Set UI visible state.
+     @param {boolean} visible
+     */
     setVisible(visible) {
         if (!this.isUIcreated()) return;
 
@@ -808,44 +832,44 @@ class UIElement {
 
 
     /**
-    @returns {string} The type of this class usually the name of the class.
-    */
+     @returns {string} The type of this class usually the name of the class.
+     */
     getType() {
         return this.constructor.name;
     }
 
     /**
-    @abstract
-    @return {boolean} Is the element ready?
-    */
+     @abstract
+     @return {boolean} Is the element ready?
+     */
     isReady() {
         TheFragebogen.logger.debug(this.constructor.name + ".isReady()", "This method might need to be overridden.");
         return true;
     }
 
     /**
-    Starts preloading external media.
-    Default implementation immedately sends callback `Screen._sendOnScreenPreloadedCallback()`.
-    @abstract
-    */
+     Starts preloading external media.
+     Default implementation immedately sends callback `Screen._sendOnScreenPreloadedCallback()`.
+     @abstract
+     */
     preload() {
         TheFragebogen.logger.debug(this.constructor.name + ".preload()", "Must be overridden for preloading.");
         this._sendOnPreloadedCallback();
     }
 
     /**
-    All external resources loaded?
-    @returns {boolean}
-    */
+     All external resources loaded?
+     @returns {boolean}
+     */
     isPreloaded() {
         return this.preloaded;
     }
 
     /**
-    Set callback to get informed when loading of all required external data is finished.
-    @param {Function}
-    @return {boolean}
-    */
+     Set callback to get informed when loading of all required external data is finished.
+     @param {Function}
+     @return {boolean}
+     */
     setOnPreloadedCallback(preloadedCallback) {
         if (!(preloadedCallback instanceof Function)) {
             TheFragebogen.logger.error(this.constructor.name + ".setOnPreloadedCallback()", "No callback handle given.");
@@ -858,9 +882,9 @@ class UIElement {
     }
 
     /**
-    Sends this.onPreloadCallback() to signalize that all required data could be loaded.
-    @return {boolean}
-    */
+     Sends this.onPreloadCallback() to signalize that all required data could be loaded.
+     @return {boolean}
+     */
     _sendOnPreloadedCallback() {
         if (!(this.preloadedCallback instanceof Function)) {
             TheFragebogen.logger.warn(this.constructor.name + "._sendOnPreloadedCallback()", "called, but no onScreenPreloadedCallback set.");
@@ -871,100 +895,100 @@ class UIElement {
     }
 
     /**
-    @abstract
-    @return {string} Returns a string representation of this object.
-    */
+     @abstract
+     @return {string} Returns a string representation of this object.
+     */
     toString() {
         TheFragebogen.logger.debug(this.constructor.name + ".toString()", "This method might need to be overridden.");
     }
 }
 
- /**
-Provides a UI for pagination between `Screens`.
+/**
+ Provides a UI for pagination between `Screens`.
 
-Implements a button to continue to the following `Screen`.
+ Implements a button to continue to the following `Screen`.
 
-@class PaginateUIButton
-@augments PaginateUI
-*/
- class PaginateUIButton extends PaginateUI {
+ @class PaginateUIButton
+ @augments PaginateUI
+ */
+class PaginateUIButton extends PaginateUI {
 
-     /**
+    /**
      @param {string} [className] CSS class
      @param {number} [relativeIdNext=undefined] The relativeId of the next screen. If undefined, no back button will be generated.
      @param {number} [relativeIdback=undefined] The relativeId of the next screen. If undefined, no back button will be generated.
      @param {string} [labelBack="Back"] The caption for the back-button.
      @param {string} [labelNext="Next"] The caption for the next-button.
      */
-     constructor(className, relativeIdBack, relativeIdNext, labelBack, labelNext) {
-         super(className);
+    constructor(className, relativeIdBack, relativeIdNext, labelBack, labelNext) {
+        super(className);
 
-         this.relativeIdBack = relativeIdBack;
-         this.relativeIdNext = relativeIdNext;
-         if (this.relativeIdBack === undefined && this.relativeIdNext === undefined) {
-             TheFragebogen.logger.error(this.constructor.name + "()", "relativeIdBack and relativeIdNext are undefined. No buttons will be created.");
-         }
-         if (typeof(this.relativeIdBack) !== "number" && typeof(this.relativeIdNext) !== "number") {
-             TheFragebogen.logger.error(this.constructor.name + "()", "relativeIdBack and relativeIdNext should be numbers.");
-         }
+        this.relativeIdBack = relativeIdBack;
+        this.relativeIdNext = relativeIdNext;
+        if (this.relativeIdBack === undefined && this.relativeIdNext === undefined) {
+            TheFragebogen.logger.error(this.constructor.name + "()", "relativeIdBack and relativeIdNext are undefined. No buttons will be created.");
+        }
+        if (typeof(this.relativeIdBack) !== "number" && typeof(this.relativeIdNext) !== "number") {
+            TheFragebogen.logger.error(this.constructor.name + "()", "relativeIdBack and relativeIdNext should be numbers.");
+        }
 
-         this.labelBack = labelBack === undefined ? "Back" : labelBack;
-         this.labelNext = labelNext === undefined ? "Next" : labelNext;
+        this.labelBack = labelBack === undefined ? "Back" : labelBack;
+        this.labelNext = labelNext === undefined ? "Next" : labelNext;
 
-         this.node = null;
-     }
+        this.node = null;
+    }
 
-     /**
+    /**
      @returns {boolean} true if the UI is created, false if not
      */
-     isUIcreated() {
-         return this.uiCreated;
-     }
+    isUIcreated() {
+        return this.uiCreated;
+    }
 
-     createUI() {
-         this.node = document.createElement("div");
-         this.node.className = this.className;
+    createUI() {
+        this.node = document.createElement("div");
+        this.node.className = this.className;
 
-         if (this.relativeIdBack !== undefined) {
-             const buttonBack = document.createElement("input");
-             buttonBack.type = "button";
-             buttonBack.value = this.labelBack;
-             buttonBack.addEventListener("click", () => this._sendPaginateCallback(this.relativeIdBack));
-             this.node.appendChild(buttonBack);
-         }
+        if (this.relativeIdBack !== undefined) {
+            const buttonBack = document.createElement("input");
+            buttonBack.type = "button";
+            buttonBack.value = this.labelBack;
+            buttonBack.addEventListener("click", () => this._sendPaginateCallback(this.relativeIdBack));
+            this.node.appendChild(buttonBack);
+        }
 
-         if (this.relativeIdNext !== undefined) {
-             const buttonNext = document.createElement("input");
-             buttonNext.type = "button";
-             buttonNext.value = this.labelNext;
-             buttonNext.addEventListener("click", () => this._sendPaginateCallback(this.relativeIdNext));
-             this.node.appendChild(buttonNext);
-         }
-         return this.node;
-     }
+        if (this.relativeIdNext !== undefined) {
+            const buttonNext = document.createElement("input");
+            buttonNext.type = "button";
+            buttonNext.value = this.labelNext;
+            buttonNext.addEventListener("click", () => this._sendPaginateCallback(this.relativeIdNext));
+            this.node.appendChild(buttonNext);
+        }
+        return this.node;
+    }
 
-     releaseUI() {
-         this.node = null;
-     }
- }
+    releaseUI() {
+        this.node = null;
+    }
+}
 
 /**
-A screen that shows all data that is _currently_ stored by the ScreenController.
+ A screen that shows all data that is _currently_ stored by the ScreenController.
 
-Reports nothing.
+ Reports nothing.
 
-Supports _pagination_.
-Default paginator is `PaginateUIButton`.
+ Supports _pagination_.
+ Default paginator is `PaginateUIButton`.
 
-@class ScreenDataPreview
-@augments Screen
-*/
+ @class ScreenDataPreview
+ @augments Screen
+ */
 class ScreenDataPreview extends Screen {
 
     /**
-    @param {string} [className] CSS class
-    @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
-    */
+     @param {string} [className] CSS class
+     @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
+     */
     constructor(className, includeAnswerChangelog) {
         super(className);
 
@@ -1029,10 +1053,10 @@ class ScreenDataPreview extends Screen {
     }
 
     /**
-    Set the function pointer for requesting the ScreenController's _raw_ data.
-    @param {function} function
-    @returns {boolean} true if parameter was a function
-    */
+     Set the function pointer for requesting the ScreenController's _raw_ data.
+     @param {function} function
+     @returns {boolean} true if parameter was a function
+     */
     setGetRawDataCallback(getDataFromScreencontroller) {
         if (getDataFromScreencontroller instanceof Function) {
             TheFragebogen.logger.debug(this.constructor.name + ".setGetRawDataCallback()", "called");
@@ -1044,25 +1068,25 @@ class ScreenDataPreview extends Screen {
 }
 
 /**
-A screen that shows an iFrame.
-Ready is reported after the defined threshold of URL changes occured.
+ A screen that shows an iFrame.
+ Ready is reported after the defined threshold of URL changes occured.
 
-Reports the final URL.
-Reports the time between ScreenIFrame.start() and the final URL change, i.e., the one that lead to ready.
-ATTENTION: This might be misleading depending on your timing requirements!
+ Reports the final URL.
+ Reports the time between ScreenIFrame.start() and the final URL change, i.e., the one that lead to ready.
+ ATTENTION: This might be misleading depending on your timing requirements!
 
-ATTENTION: Preloading is not supported.
+ ATTENTION: Preloading is not supported.
 
-@class ScreenIFrame
-@augments Screen
-*/
+ @class ScreenIFrame
+ @augments Screen
+ */
 class ScreenIFrame extends Screen {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} [url]
-    @param {number} [urlChangesToReady] Number of URL changes until ready is reported.
-    */
+     @param {string} [className] CSS class
+     @param {string} [url]
+     @param {number} [urlChangesToReady] Number of URL changes until ready is reported.
+     */
     constructor(className, url, urlChangesToReady) {
         super(className);
 
@@ -1133,22 +1157,22 @@ class ScreenIFrame extends Screen {
 }
 
 /**
-A screen that presents one or more UIElements.
-All UIElements are visible and enabled by default.
-Ready is reported when all UIElements reported ready AND the user pressed the presented button.
+ A screen that presents one or more UIElements.
+ All UIElements are visible and enabled by default.
+ Ready is reported when all UIElements reported ready AND the user pressed the presented button.
 
-Supports _pagination_.
-Default paginator is `PaginateUIButton`.
+ Supports _pagination_.
+ Default paginator is `PaginateUIButton`.
 
-@class ScreenUIElements
-@augments Screen
-*/
+ @class ScreenUIElements
+ @augments Screen
+ */
 class ScreenUIElements extends Screen {
 
     /**
-    @param {string} [className=] CSS class
-    @param {...UIElement} arguments an array containing the UIElements of the screen
-    */
+     @param {string} [className=] CSS class
+     @param {...UIElement} arguments an array containing the UIElements of the screen
+     */
     constructor(className) {
         super();
 
@@ -1216,8 +1240,8 @@ class ScreenUIElements extends Screen {
     }
 
     /**
-    Enables all the elements of the screen.
-    */
+     Enables all the elements of the screen.
+     */
     start() {
         TheFragebogen.logger.info(this.constructor.name + ".start()", "");
 
@@ -1227,9 +1251,9 @@ class ScreenUIElements extends Screen {
     }
 
     /**
-    Are all UIElementInteractive ready?
-    @returns {boolean}
-    */
+     Are all UIElementInteractive ready?
+     @returns {boolean}
+     */
     isReady() {
         let ready = true;
 
@@ -1287,10 +1311,10 @@ class ScreenUIElements extends Screen {
     }
 
     /**
-    All external resources loaded?
-    @abstract
-    @returns {boolean}
-    */
+     All external resources loaded?
+     @abstract
+     @returns {boolean}
+     */
     isPreloaded() {
         for (let i = 0; i < this.uiElements.length; i++) {
             if (!this.uiElements[i].isPreloaded()) return false;
@@ -1308,19 +1332,19 @@ class ScreenUIElements extends Screen {
 }
 
 /**
-A screen that waits for the defined duration while presenting a message.
-Fancy animation(s) can be shown using CSS.
+ A screen that waits for the defined duration while presenting a message.
+ Fancy animation(s) can be shown using CSS.
 
-@class ScreenWait
-@augments Screen
-*/
+ @class ScreenWait
+ @augments Screen
+ */
 class ScreenWait extends Screen {
 
     /**
-    @param {string} [className] CSS class
-    @param {number} [time=2] The time to wait in seconds
-    @param {string} [html="Please wait..."] The HTML content to be presented.
-    */
+     @param {string} [className] CSS class
+     @param {number} [time=2] The time to wait in seconds
+     @param {string} [html="Please wait..."] The HTML content to be presented.
+     */
     constructor(className, time, html) {
         super(className);
 
@@ -1347,8 +1371,8 @@ class ScreenWait extends Screen {
     }
 
     /**
-    Starts the timer.
-    */
+     Starts the timer.
+     */
     start() {
         this._startTimer();
     }
@@ -1365,19 +1389,19 @@ class ScreenWait extends Screen {
 }
 
 /**
-A UIElement that shows a button.
-The provided callback function gets called if a onclick event occurs on this button.
+ A UIElement that shows a button.
+ The provided callback function gets called if a onclick event occurs on this button.
 
-@class UIElementButton
-@augments UIElement
-*/
+ @class UIElementButton
+ @augments UIElement
+ */
 class UIElementButton extends UIElement {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} caption Caption of the button
-    @param {method} actionCallback Callback function for onclick event
-    */
+     @param {string} [className] CSS class
+     @param {string} caption Caption of the button
+     @param {method} actionCallback Callback function for onclick event
+     */
     constructor(className, caption, actionCallback) {
         super(className);
 
@@ -1407,18 +1431,18 @@ class UIElementButton extends UIElement {
 }
 
 /**
-A UIElement that shows non-interactive UI, i.e., plain HTML.
-Provided HTML is encapsulated into a div and div.className is set.
+ A UIElement that shows non-interactive UI, i.e., plain HTML.
+ Provided HTML is encapsulated into a div and div.className is set.
 
-@class UIElementHTML
-@augments UIElement
+ @class UIElementHTML
+ @augments UIElement
 
-*/
+ */
 class UIElementHTML extends UIElement {
     /**
-    @param {string} [className] CSS class
-    @param {string} html HTML
-    */
+     @param {string} [className] CSS class
+     @param {string} html HTML
+     */
     constructor(className, html) {
         super(className);
 
@@ -1437,17 +1461,17 @@ class UIElementHTML extends UIElement {
 }
 
 /**
-A UIElement that has an interactive UI and thus might not be ready in the beginning but requiring user interaction before its goal is fulfilled.
+ A UIElement that has an interactive UI and thus might not be ready in the beginning but requiring user interaction before its goal is fulfilled.
 
-@abstract
-@class UIElementInteractive
-@augments UIElement
-*/
+ @abstract
+ @class UIElementInteractive
+ @augments UIElement
+ */
 class UIElementInteractive extends UIElement {
 
     /**
-    @param {string} [className] CSS class
-    */
+     @param {string} [className] CSS class
+     */
     constructor(className) {
         super(className);
         this.enabled = false;
@@ -1471,34 +1495,34 @@ class UIElementInteractive extends UIElement {
     }
 
     /**
-    Updates the UI to inform to reflect that this element is _yet_ not ready.
-    @abstract
-    */
+     Updates the UI to inform to reflect that this element is _yet_ not ready.
+     @abstract
+     */
     markRequired() {
         TheFragebogen.logger.debug(this.constructor.name + ".markRequired()", "This method should be overridden.");
     }
 }
 
 /**
-A QuestionnaireItem is an abstract UIElementInteractive that consists of a question and presents a scale.
-The answer on the scale is stored.
+ A QuestionnaireItem is an abstract UIElementInteractive that consists of a question and presents a scale.
+ The answer on the scale is stored.
 
-NOTE: An QuestionnaireItem that is not yet answered but required, will be marked on check with the CSS class: `className + "Required"`.
+ NOTE: An QuestionnaireItem that is not yet answered but required, will be marked on check with the CSS class: `className + "Required"`.
 
-DEVERLOPER: Subclasses need to override `_createAnswerNode()`.
+ DEVERLOPER: Subclasses need to override `_createAnswerNode()`.
 
-@abstract
-@class QuestionnaireItem
-@augments UIElement
-@augments UIElementInteractive
-*/
+ @abstract
+ @class QuestionnaireItem
+ @augments UIElement
+ @augments UIElementInteractive
+ */
 class QuestionnaireItem extends UIElementInteractive {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} question question
-    @param {boolean} [required=false] Is this QuestionnaireItem required to be answered?
-    */
+     @param {string} [className] CSS class
+     @param {string} question question
+     @param {boolean} [required=false] Is this QuestionnaireItem required to be answered?
+     */
     constructor(className, question, required) {
         super(className);
 
@@ -1510,17 +1534,17 @@ class QuestionnaireItem extends UIElementInteractive {
     }
 
     /**
-    Returns the question.
-    @returns {string} The question.
-    */
+     Returns the question.
+     @returns {string} The question.
+     */
     getQuestion() {
         return this.question;
     }
 
     /**
-    Returns the answer (most recent set).
-    @returns {object} The answer.
-    */
+     Returns the answer (most recent set).
+     @returns {object} The answer.
+     */
     getAnswer() {
         if (this.answerLog.length === 0) {
             return null;
@@ -1529,18 +1553,18 @@ class QuestionnaireItem extends UIElementInteractive {
     }
 
     /**
-    Returns a copy of the changelog of answers (as generated by `this.setAnswer()`).
-    @returns {array<Date, object>} The changelog of answers.
-    */
+     Returns a copy of the changelog of answers (as generated by `this.setAnswer()`).
+     @returns {array<Date, object>} The changelog of answers.
+     */
     getAnswerChangelog() {
         return this.answerLog.slice();
     }
 
     /**
-    Sets the answer and adds it to this.answerLog.
-    @param {object} answer The answer to be set.
-    @returns {boolean} Success or failure.
-    */
+     Sets the answer and adds it to this.answerLog.
+     @param {object} answer The answer to be set.
+     @returns {boolean} Success or failure.
+     */
     setAnswer(answer) {
         this.answerLog.push([new Date(), answer]);
         this._sendReadyStateChanged();
@@ -1548,42 +1572,42 @@ class QuestionnaireItem extends UIElementInteractive {
     }
 
     /**
-    Is this QuestionnaireItem answered?
-    @returns {boolean}
-    */
+     Is this QuestionnaireItem answered?
+     @returns {boolean}
+     */
     isAnswered() {
         return this.answerLog.length > 0 && this.answerLog[this.answerLog.length - 1][1] !== null;
     }
 
     /**
-    Returns the list of predefined options.
-    @abstract
-    @returns {array} undefined by default.
-    */
+     Returns the list of predefined options.
+     @abstract
+     @returns {array} undefined by default.
+     */
     getAnswerOptions() {
         return undefined;
     }
 
     /**
-    Adjust the UI if the answer was changed using `setAnswer()`.
-    @abstract
-    */
+     Adjust the UI if the answer was changed using `setAnswer()`.
+     @abstract
+     */
     applyAnswerToUI() {
         TheFragebogen.logger.debug(this.constructor.name + ".applyAnswerToUI()", "This method might need to be overridden.");
     }
 
     /**
-    Is this QuestionnaireItem ready, i.e., answered if required?
-    @returns {boolean}
-    */
+     Is this QuestionnaireItem ready, i.e., answered if required?
+     @returns {boolean}
+     */
     isReady() {
         return this.isRequired() ? this.isAnswered() : true;
     }
 
     /**
-    Is this QuestionnaireItem required to be answered?
-    @returns {boolean}
-    */
+     Is this QuestionnaireItem required to be answered?
+     @returns {boolean}
+     */
     isRequired() {
         return this.required;
     }
@@ -1603,9 +1627,9 @@ class QuestionnaireItem extends UIElementInteractive {
     }
 
     /**
-    Create the UI showing the question.
-    @returns {HTMLElement} The div containing the question.
-    */
+     Create the UI showing the question.
+     @returns {HTMLElement} The div containing the question.
+     */
     _createQuestionNode() {
         const questionNode = document.createElement("div");
         // questionNode.innerHTML = this.question + (this.required ? "*" : ""); //todo modify *
@@ -1614,10 +1638,10 @@ class QuestionnaireItem extends UIElementInteractive {
     }
 
     /**
-    Create the UI showing the scale.
-    @abstract
-    @returns {HTMLElement} The HTML container with the scale.
-    */
+     Create the UI showing the scale.
+     @abstract
+     @returns {HTMLElement} The HTML container with the scale.
+     */
     _createAnswerNode() {
         TheFragebogen.logger.warn(this.constructor.name + "._createAnswerNode()", "This method might need to be overridden.");
     }
@@ -1627,9 +1651,9 @@ class QuestionnaireItem extends UIElementInteractive {
     }
 
     /**
-    Mark this element as required if it was not answered (className + "Required").
-    Is called by the Screen if necessary.
-    */
+     Mark this element as required if it was not answered (className + "Required").
+     Is called by the Screen if necessary.
+     */
     markRequired() {
         if (this.node === null) {
             return;
@@ -1645,20 +1669,20 @@ class QuestionnaireItem extends UIElementInteractive {
 }
 
 /**
-A screen that presents one or more UIElements and reports ready _automatically_ when all UIElements are ready.
-All UIElements are visible and enabled by default.
+ A screen that presents one or more UIElements and reports ready _automatically_ when all UIElements are ready.
+ All UIElements are visible and enabled by default.
 
-NOTE: UIElementsInteractive should be marked as REQUIRED.
+ NOTE: UIElementsInteractive should be marked as REQUIRED.
 
-@class ScreenUIElementsAuto
-@augments Screen
-@augments ScreenUIElements
-*/
+ @class ScreenUIElementsAuto
+ @augments Screen
+ @augments ScreenUIElements
+ */
 class ScreenUIElementsAuto extends ScreenUIElements {
     /**
-    @param {string} [className=] CSS class
-    @param {...UIElement} arguments an array containing the UIElements of the screen
-    */
+     @param {string} [className=] CSS class
+     @param {...UIElement} arguments an array containing the UIElements of the screen
+     */
     constructor(...args) {
         super(...args);
     }
@@ -1701,20 +1725,20 @@ class ScreenUIElementsAuto extends ScreenUIElements {
 }
 
 /**
-A screen that presents one or more UIElements.
-All UIElements are visible by default.
-UIElements are enabled one after another, i.e., if its predecessing UIElement reported to be ready the next one is enabled.
+ A screen that presents one or more UIElements.
+ All UIElements are visible by default.
+ UIElements are enabled one after another, i.e., if its predecessing UIElement reported to be ready the next one is enabled.
 
-@class ScreenUIElementsSequential
-@augments Screen
-@augments ScreenUIElements
-*/
+ @class ScreenUIElementsSequential
+ @augments Screen
+ @augments ScreenUIElements
+ */
 class ScreenUIElementsSequential extends ScreenUIElements {
 
     /**
-    @param {string} [className=] CSS class
-    @param {...UIElement} arguments an array containing the UIElements of the screen
-    */
+     @param {string} [className=] CSS class
+     @param {...UIElement} arguments an array containing the UIElements of the screen
+     */
     constructor(...args) {
         super(...args);
         this.currentElementIndex = null;
@@ -1744,7 +1768,7 @@ class ScreenUIElementsSequential extends ScreenUIElements {
     }
 
     /**
-    Callback to enable the following UIElementInteractive.
+     Callback to enable the following UIElementInteractive.
      */
     _onUIElementReady() {
         TheFragebogen.logger.info(this.constructor.name + "._onUIElementReady()", "called");
@@ -1770,22 +1794,22 @@ class ScreenUIElementsSequential extends ScreenUIElements {
 }
 
 /**
-Base class of Screens that handle data export.
-Displays a HTML message.
+ Base class of Screens that handle data export.
+ Displays a HTML message.
 
-@abstract
-@class ScreenWaitData
-@augments Screen
-@augments ScreenWait
-*/
+ @abstract
+ @class ScreenWaitData
+ @augments Screen
+ @augments ScreenWait
+ */
 class ScreenWaitData extends ScreenWait {
 
     /**
-    @param {string} [className=""] CSS class
-    @param {number} time Time to wait in seconds
-    @param {string} message The message to display (HTML)
-    @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
-    */
+     @param {string} [className=""] CSS class
+     @param {number} time Time to wait in seconds
+     @param {string} message The message to display (HTML)
+     @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
+     */
     constructor(className, time, message, includeAnswerChangelog) {
         super(className, time, message);
 
@@ -1813,26 +1837,26 @@ class ScreenWaitData extends ScreenWait {
 }
 
 /**
-Simulates the delayed loading of an image that is selectable (via checkbox).
-During the load process a load animation (another image) is shown.
+ Simulates the delayed loading of an image that is selectable (via checkbox).
+ During the load process a load animation (another image) is shown.
 
-DEVELOPER:
-* does not support preloading the images
+ DEVELOPER:
+ * does not support preloading the images
 
-@class UIElementInteractiveDelayedImageSelectable
-@augments UIElement
-@augments UIElementInteractive
-*/
+ @class UIElementInteractiveDelayedImageSelectable
+ @augments UIElement
+ @augments UIElementInteractive
+ */
 class UIElementInteractiveDelayedImageSelectable extends UIElementInteractive {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} loadAnimationURL URL of the load animation.
-    @param {string} imageURL URL of the image.
-    @param {string} imageCaption The caption of the image.
-    @param {float} loadDelay The delay in ms.
-    @param {int} [readyMode=0] 0: immediately, 1: selected, 2: not selected, 3: ready on delayed load, 4: case 1 & 3; 5: case 2 & 3
-    */
+     @param {string} [className] CSS class
+     @param {string} loadAnimationURL URL of the load animation.
+     @param {string} imageURL URL of the image.
+     @param {string} imageCaption The caption of the image.
+     @param {float} loadDelay The delay in ms.
+     @param {int} [readyMode=0] 0: immediately, 1: selected, 2: not selected, 3: ready on delayed load, 4: case 1 & 3; 5: case 2 & 3
+     */
     constructor(className, loadAnimationURL, imageURL, imageCaption, imageDelay, readyMode) {
         super(className);
 
@@ -1922,23 +1946,23 @@ class UIElementInteractiveDelayedImageSelectable extends UIElementInteractive {
 }
 
 /**
-A QuestionnaireItem with a HTML5 date selector.
+ A QuestionnaireItem with a HTML5 date selector.
 
-@class QuestionnaireItemDate
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-*/
+ @class QuestionnaireItemDate
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ */
 class QuestionnaireItemDate extends QuestionnaireItem {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} [question]
-    @param {boolean} [required=false]
-    @param {string} [min] The earliest acceptable date.
-    @param {string} [max] The lattest acceptable date.
-    @param {string} [pattern] The pattern an acceptable date needs to fulfill.
-    */
+     @param {string} [className] CSS class
+     @param {string} [question]
+     @param {boolean} [required=false]
+     @param {string} [min] The earliest acceptable date.
+     @param {string} [max] The lattest acceptable date.
+     @param {string} [pattern] The pattern an acceptable date needs to fulfill.
+     */
     constructor(className, question, required, min, max, pattern) {
         super(className, question, required);
 
@@ -1989,22 +2013,22 @@ class QuestionnaireItemDate extends QuestionnaireItem {
 }
 
 /**
-QuestionnaireItems that have a predefined set of potential answers.
+ QuestionnaireItems that have a predefined set of potential answers.
 
-@abstract
-@class QuestionnaireItemDefined
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-*/
+ @abstract
+ @class QuestionnaireItemDefined
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ */
 class QuestionnaireItemDefined extends QuestionnaireItem {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} question
-    @param {boolean} [required=false]
-    @param {array} optionList Possible options.
-    */
+     @param {string} [className] CSS class
+     @param {string} question
+     @param {boolean} [required=false]
+     @param {array} optionList Possible options.
+     */
     constructor(className, question, required, optionList) {
         super(className, question, required);
 
@@ -2029,28 +2053,28 @@ class QuestionnaireItemDefined extends QuestionnaireItem {
 }
 
 /**
-A QuestionnaireItemMedia is the base class for QuestionnaireItems that present media, e.g., image, audio, or video.
+ A QuestionnaireItemMedia is the base class for QuestionnaireItems that present media, e.g., image, audio, or video.
 
-Playable media start playing automatically if loaded (canplaythrough=true) and `setEnabled(true)`.
+ Playable media start playing automatically if loaded (canplaythrough=true) and `setEnabled(true)`.
 
-ATTENTION: answer is stored on calling releaseUI() and (if UI is created) getAnswer() only.
+ ATTENTION: answer is stored on calling releaseUI() and (if UI is created) getAnswer() only.
 
-@abstract
-@class QuestionnaireItemMedia
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-*/
+ @abstract
+ @class QuestionnaireItemMedia
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ */
 class QuestionnaireItemMedia extends QuestionnaireItem {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} [question]
-    @param {boolean} [required=false]
-    @param {string|array} url The URL of the media element to be loaded; if supported by the browser also data URI. A single resource can be provided as string or multiple resources of different formats as an array.
-    @param {boolean} required Element must report ready before continue.
-    @param {boolean} [readyOnError] Set `ready=true` if an error occures.
-    */
+     @param {string} [className] CSS class
+     @param {string} [question]
+     @param {boolean} [required=false]
+     @param {string|array} url The URL of the media element to be loaded; if supported by the browser also data URI. A single resource can be provided as string or multiple resources of different formats as an array.
+     @param {boolean} required Element must report ready before continue.
+     @param {boolean} [readyOnError] Set `ready=true` if an error occures.
+     */
     constructor(className, question, required, url, readyOnError) {
         super(className, question, required);
 
@@ -2133,15 +2157,15 @@ class QuestionnaireItemMedia extends QuestionnaireItem {
 
     //Media-related callbacks
     /**
-    Start playback of playable media.
-    */
+     Start playback of playable media.
+     */
     _play() {
         TheFragebogen.logger.debug(this.constructor.name + "._play()", "This method must be overridden if playback is desired.");
     }
 
     /**
-    Pause playback of playable media.
-    */
+     Pause playback of playable media.
+     */
     _pause() {
         TheFragebogen.logger.debug(this.constructor.name + "._pause()", "This method must be overridden if playback is desired.");
     }
@@ -2192,63 +2216,63 @@ class QuestionnaireItemMedia extends QuestionnaireItem {
     }
 
     /**
-    Overwrite this method to add additional data to be reported.
-    */
+     Overwrite this method to add additional data to be reported.
+     */
     _updateAnswer() {
         this.setAnswer([this.url, this.time]);
     }
 }
 
 /**
-A base class for QuestionnaireItems using a SVG as scale.
+ A base class for QuestionnaireItems using a SVG as scale.
 
-The SVG is required to have click-positions representing the potential answers (e.g., path, rect, ellipse).
-Actionlistener are added to these while the id of each answer-element represents the _answer_.
-In addition, the SVG must contain an element `id="cross"` that shows the current answer (if set).
+ The SVG is required to have click-positions representing the potential answers (e.g., path, rect, ellipse).
+ Actionlistener are added to these while the id of each answer-element represents the _answer_.
+ In addition, the SVG must contain an element `id="cross"` that shows the current answer (if set).
 
-DEVELOPER:
-To implement a new scale:
-1. Create an SVG
-1.1. Add a id=cross
-1.2. Add click-position with _unique_ id (Non-unique ids also work, but setAnswer() will misbehave).
-2. Override _setupSVG(): Set up the SVG and viewbox.
-3. Override _getAnswerElements()
-4. Override getAnswerOptions
+ DEVELOPER:
+ To implement a new scale:
+ 1. Create an SVG
+ 1.1. Add a id=cross
+ 1.2. Add click-position with _unique_ id (Non-unique ids also work, but setAnswer() will misbehave).
+ 2. Override _setupSVG(): Set up the SVG and viewbox.
+ 3. Override _getAnswerElements()
+ 4. Override getAnswerOptions
 
-ATTENTION:
-Creating the SVG is not straight forward as the cross-element is moved to an answer using transform.
-We had some trouble, if each answer-element had an individual transform (e.g., matrix) instead of an absolute position.
+ ATTENTION:
+ Creating the SVG is not straight forward as the cross-element is moved to an answer using transform.
+ We had some trouble, if each answer-element had an individual transform (e.g., matrix) instead of an absolute position.
 
-[Inkscape](http://inkscape.org) might add those transform if copy-and-paste is used.
-To remove those transforms group and ungroup all answer-elements in Inkscape.
+ [Inkscape](http://inkscape.org) might add those transform if copy-and-paste is used.
+ To remove those transforms group and ungroup all answer-elements in Inkscape.
 
-To test your SVG, you can use the following code (open the SVG in Chrome and open developer mode).
-The cross should be positioned accordingly.
+ To test your SVG, you can use the following code (open the SVG in Chrome and open developer mode).
+ The cross should be positioned accordingly.
 
-<code>
-const cross=document.getElementById("cross")
-const answerA = document.getElementById('10'); //Change if you use different answer
+ <code>
+ const cross=document.getElementById("cross")
+ const answerA = document.getElementById('10'); //Change if you use different answer
 
-cross.setAttributeNS(null, "transform", "translate(0,0)"); //Reset cross position
+ cross.setAttributeNS(null, "transform", "translate(0,0)"); //Reset cross position
 
-transform = cross.getTransformToElement(answerA)
-crossBB = cross.getBBox()
-answerABB = answerA.getBBox()
-cross.setAttributeNS(null, "transform", "translate(" + (-transform.e + Math.abs(answerABB.x - crossBB.x) - crossBB.width/2 + answerABB.width/2) + ",0)");
-</code>
+ transform = cross.getTransformToElement(answerA)
+ crossBB = cross.getBBox()
+ answerABB = answerA.getBBox()
+ cross.setAttributeNS(null, "transform", "translate(" + (-transform.e + Math.abs(answerABB.x - crossBB.x) - crossBB.width/2 + answerABB.width/2) + ",0)");
+ </code>
 
-@class QuestionnaireItemSVG
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-*/
+ @class QuestionnaireItemSVG
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ */
 class QuestionnaireItemSVG extends QuestionnaireItem {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} question
-    @param {boolean} [required=false]
-    */
+     @param {string} [className] CSS class
+     @param {string} question
+     @param {boolean} [required=false]
+     */
     constructor(className, question, required) {
         super(className, question, required);
 
@@ -2293,19 +2317,19 @@ class QuestionnaireItemSVG extends QuestionnaireItem {
     }
 
     /**
-    Setup this.scaleImage by definining the content and the viewbox.
-    1. this.scaleImage.innerHTML = "<svg...>";
-    2. this.scaleImage.setAttribute("viewBox", "0 2 136.76 21.39");
-    */
+     Setup this.scaleImage by definining the content and the viewbox.
+     1. this.scaleImage.innerHTML = "<svg...>";
+     2. this.scaleImage.setAttribute("viewBox", "0 2 136.76 21.39");
+     */
     _setupSVG() {
         TheFragebogen.logger.error(this.constructor.name + "._setupSVG()", "Must be overridden.");
     }
 
     /**
-    Returns all clickable elements representing an answer.
-    Every element must have a unique id, which is used as answer.
-    @returns {array}
-    */
+     Returns all clickable elements representing an answer.
+     Every element must have a unique id, which is used as answer.
+     @returns {array}
+     */
     _getAnswerElements() {
         TheFragebogen.logger.error(this.constructor.name + "._answerElements()", "Must be overridden.");
         return [];
@@ -2358,15 +2382,15 @@ class QuestionnaireItemSVG extends QuestionnaireItem {
 }
 
 /**
-An abstract QuestionnaireItem for system-defined answers.
-These will be answered automatically and should not provide a UI.
+ An abstract QuestionnaireItem for system-defined answers.
+ These will be answered automatically and should not provide a UI.
 
-@abstract
-@class QuestionnaireItemSystem
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-*/
+ @abstract
+ @class QuestionnaireItemSystem
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ */
 class QuestionnaireItemSystem extends QuestionnaireItem {
 
     constructor() {
@@ -2394,25 +2418,25 @@ class QuestionnaireItemSystem extends QuestionnaireItem {
 }
 
 /**
-A QuestionnaireItem for text input.
-This item uses a HTML textarea.
+ A QuestionnaireItem for text input.
+ This item uses a HTML textarea.
 
-@class QuestionnaireItemTextArea
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-*/
+ @class QuestionnaireItemTextArea
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ */
 class QuestionnaireItemTextArea extends QuestionnaireItem {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} question
-    @param {boolean} [required=false]
+     @param {string} [className] CSS class
+     @param {string} question
+     @param {boolean} [required=false]
 
-    @param {number} [rows=2] The number of rows.
-    @param {number} [cols=19] The number of colums.
-    @param {string} [placeholder=""] The placeholder text to show.
-    */
+     @param {number} [rows=2] The number of rows.
+     @param {number} [cols=19] The number of colums.
+     @param {string} [placeholder=""] The placeholder text to show.
+     */
     constructor(className, question, required, rows, cols, placeholder) {
         super(className, question, required);
 
@@ -2456,21 +2480,21 @@ class QuestionnaireItemTextArea extends QuestionnaireItem {
 }
 
 /**
-A QuestionnaireItem for one line text input.
-This item uses a HTML input field.
+ A QuestionnaireItem for one line text input.
+ This item uses a HTML input field.
 
-@class QuestionnaireItemText
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-*/
+ @class QuestionnaireItemText
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ */
 class QuestionnaireItemText extends QuestionnaireItem {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} question
-    @param {boolean} [required=false]
-    */
+     @param {string} [className] CSS class
+     @param {string} question
+     @param {boolean} [required=false]
+     */
     constructor(className, question, required) {
         super(className, question, required);
 
@@ -2506,43 +2530,43 @@ class QuestionnaireItemText extends QuestionnaireItem {
 }
 
 /**
-This QuestionnaireItem connects to a Websocket server and may
-a) send a message (ignore incoming messages),
-b) wait until a certain message is received, or
-c) a) and b).
+ This QuestionnaireItem connects to a Websocket server and may
+ a) send a message (ignore incoming messages),
+ b) wait until a certain message is received, or
+ c) a) and b).
 
-Notes:
-* This QuestionnaireItem is _always_ required.
-* Starts connecting on setting `QuestionnaireItemWaitWebsocket.setEnabled(true)`.
-* Automatically tries to reconnect on connection failure: message resend on every reconnect.
-  IMPORTANT: Please note that this approach is brute force and at the moment ignores _permanent failures_ (HTTP: 404) are not handled.
-* After reaching timeout, this element sets itself to ready=true.
+ Notes:
+ * This QuestionnaireItem is _always_ required.
+ * Starts connecting on setting `QuestionnaireItemWaitWebsocket.setEnabled(true)`.
+ * Automatically tries to reconnect on connection failure: message resend on every reconnect.
+ IMPORTANT: Please note that this approach is brute force and at the moment ignores _permanent failures_ (HTTP: 404) are not handled.
+ * After reaching timeout, this element sets itself to ready=true.
 
 
-Uses CSS classes:
-* this.className (Initial before enabling)
-* this.className + "Connecting"
-* this.className + "Connected"
-* this.className + "Reconnecting"
-* this.className + "Ready" (required message received)
-* NOT this.className + "Required" via `Questionnaire.markRequired()`
+ Uses CSS classes:
+ * this.className (Initial before enabling)
+ * this.className + "Connecting"
+ * this.className + "Connected"
+ * this.className + "Reconnecting"
+ * this.className + "Ready" (required message received)
+ * NOT this.className + "Required" via `Questionnaire.markRequired()`
 
-@class QuestionnaireItemWaitWebsocket
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-*/
+ @class QuestionnaireItemWaitWebsocket
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ */
 class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
 
     /**
-    @param {string} [className] CSS class
+     @param {string} [className] CSS class
 
-    @param {string} url The websocket URL, eg., ws://localhost:8080/someLocation.
-    @param {string} [messageReceive=undefined] The message to be waiting for. `undefined`: don't wait.
-    @param {string} [messageSend=undefined] The message to be sent. `undefined`: don't send anything.
-    @param {number} [reconnectAttempts=-1] Number of attempts to reconnect; negative number: forever.
-    @param {number} [timeout=0] Timeout in seconds.
-    */
+     @param {string} url The websocket URL, eg., ws://localhost:8080/someLocation.
+     @param {string} [messageReceive=undefined] The message to be waiting for. `undefined`: don't wait.
+     @param {string} [messageSend=undefined] The message to be sent. `undefined`: don't send anything.
+     @param {number} [reconnectAttempts=-1] Number of attempts to reconnect; negative number: forever.
+     @param {number} [timeout=0] Timeout in seconds.
+     */
     constructor(className, url, messageSend, messageReceive, reconnectAttempts, timeout) {
         super(className, "", true);
 
@@ -2682,34 +2706,34 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
 }
 
 /**
-A QuestionnaireItem for free-hand input (drawing or writing).
-Uses mouse simulation to draw a canvas.
+ A QuestionnaireItem for free-hand input (drawing or writing).
+ Uses mouse simulation to draw a canvas.
 
-Reports answer as base64-coded PNG image.
-ATTENTION: answer is stored on calling releaseUI() and (if UI is created) getAnswer() only.
-ATTENTION: disables context menu (i.e., right click menu).
+ Reports answer as base64-coded PNG image.
+ ATTENTION: answer is stored on calling releaseUI() and (if UI is created) getAnswer() only.
+ ATTENTION: disables context menu (i.e., right click menu).
 
-Supports HDPI.
+ Supports HDPI.
 
-Apply "cursor: none;" if stylus input is used.
+ Apply "cursor: none;" if stylus input is used.
 
-@class QuestionnaireItemWrite
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-*/
+ @class QuestionnaireItemWrite
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ */
 class QuestionnaireItemWrite extends QuestionnaireItem {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} [question] The question
-    @param {boolean} [required=false] Is this QuestionnaireItem required to be answered?
-    @param {string} [backgroundImg] URL of the background image
-    @param {number} [height=240]
-    @param {number} [width=320]
-    @param {number} [drawSize=1] The radius of the pen in px.
-    @param {number} [eraserSize=10] The radius of the eraser in px.
-    */
+     @param {string} [className] CSS class
+     @param {string} [question] The question
+     @param {boolean} [required=false] Is this QuestionnaireItem required to be answered?
+     @param {string} [backgroundImg] URL of the background image
+     @param {number} [height=240]
+     @param {number} [width=320]
+     @param {number} [drawSize=1] The radius of the pen in px.
+     @param {number} [eraserSize=10] The radius of the eraser in px.
+     */
     constructor(className, question, required, backgroundImg, width, height, drawColor, drawSize, eraserSize) {
         super(className, question, required);
 
@@ -2797,8 +2821,8 @@ class QuestionnaireItemWrite extends QuestionnaireItem {
     }
 
     /**
-    Pen is down on the paper.
-    */
+     Pen is down on the paper.
+     */
     onWritingStart(event) {
         if (!this.isEnabled()) {
             return;
@@ -2812,8 +2836,8 @@ class QuestionnaireItemWrite extends QuestionnaireItem {
     }
 
     /**
-    Pen is moving on the paper.
-    */
+     Pen is moving on the paper.
+     */
     onWriting(event) {
         if (!this.isEnabled() || !this.painting) {
             return;
@@ -2849,8 +2873,8 @@ class QuestionnaireItemWrite extends QuestionnaireItem {
     }
 
     /**
-    Pen left paper, so save the answer.
-    */
+     Pen left paper, so save the answer.
+     */
     onWritingStop() {
         this.painting = false;
 
@@ -2885,23 +2909,23 @@ class QuestionnaireItemWrite extends QuestionnaireItem {
 }
 
 /**
-A screen that downloads the currently stored data of the questionnaire in CSV format as a file.
-A message is presented while uploading.
-Default timeout: 300s; should not be relevant.
+ A screen that downloads the currently stored data of the questionnaire in CSV format as a file.
+ A message is presented while uploading.
+ Default timeout: 300s; should not be relevant.
 
-@class ScreenWaitDataDownload
-@augments Screen
-@augments ScreenWait
-@augments ScreenWaitData
-*/
+ @class ScreenWaitDataDownload
+ @augments Screen
+ @augments ScreenWait
+ @augments ScreenWaitData
+ */
 class ScreenWaitDataDownload extends ScreenWaitData {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} [message="Downloading data"] Message to be displayed.
-    @param {string} [filename="TheFragebogen.csv"] Name of the file to be downloaded
-    @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
-    */
+     @param {string} [className] CSS class
+     @param {string} [message="Downloading data"] Message to be displayed.
+     @param {string} [filename="TheFragebogen.csv"] Name of the file to be downloaded
+     @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
+     */
     constructor(className, message, filename, includeAnswerChangelog) {
         super(className, 300, typeof(message) === "string" ? message : "Downloading data", includeAnswerChangelog);
 
@@ -2922,18 +2946,18 @@ class ScreenWaitDataDownload extends ScreenWaitData {
     }
 
     /**
-    On start(), the screenController.requestDataCSV() is called with this.callbackDownload() as callback.
-    ScreenController needs to set the callback accordingly.
-    */
+     On start(), the screenController.requestDataCSV() is called with this.callbackDownload() as callback.
+     ScreenController needs to set the callback accordingly.
+     */
     start() {
         this._sendGetDataCallback();
         this.callbackDownload(this.data);
     }
 
     /**
-    Callback to download data.
-    @param {string} data
-    */
+     Callback to download data.
+     @param {string} data
+     */
     callbackDownload(data) {
         TheFragebogen.logger.info(this.constructor.name + ".callbackDownload()", data);
         downloadData(this.filename, data);
@@ -2942,30 +2966,30 @@ class ScreenWaitDataDownload extends ScreenWaitData {
 }
 
 /**
-A screen that uploads the currently stored data of the questionnaire in CSV format to a webserver via AJAX (HTTP POST).
-A message is presented while uploading.
-Default timeout: 4s.
+ A screen that uploads the currently stored data of the questionnaire in CSV format to a webserver via AJAX (HTTP POST).
+ A message is presented while uploading.
+ Default timeout: 4s.
 
-USER: Be aware of Cross-site origin policy: http://en.wikipedia.org/wiki/Cross-origin_resource_sharing
-The web server must be configured accordingly if upload URL is different than the URL the questionnaire was loaded from.
+ USER: Be aware of Cross-site origin policy: http://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+ The web server must be configured accordingly if upload URL is different than the URL the questionnaire was loaded from.
 
-@class ScreenWaitDataUpload
-@augments Screen
-@augments ScreenWait
-@augments ScreenWaitData
-*/
+ @class ScreenWaitDataUpload
+ @augments Screen
+ @augments ScreenWait
+ @augments ScreenWaitData
+ */
 class ScreenWaitDataUpload extends ScreenWaitData {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} [url]
-    @param {number} [timeout=4] timeout in seconds
-    @param {string} [message="Uploading data. Please wait..."]
-    @param {string} [httpParamaterName="data"]
-    @param {string} [failMessage="Upload failed. Data will be downloaded to local computer now."]
-    @param {boolean} [nextScreenOnFail=true] Continue to next screen if upload failed.
-    @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
-    */
+     @param {string} [className] CSS class
+     @param {string} [url]
+     @param {number} [timeout=4] timeout in seconds
+     @param {string} [message="Uploading data. Please wait..."]
+     @param {string} [httpParamaterName="data"]
+     @param {string} [failMessage="Upload failed. Data will be downloaded to local computer now."]
+     @param {boolean} [nextScreenOnFail=true] Continue to next screen if upload failed.
+     @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
+     */
     constructor(className, url, timeout, message, httpParameterName, failMessage, nextScreenOnFail, includeAnswerChangelog) {
         super(className, !isNaN(timeout) ? Math.abs(timeout) : 4, typeof(message) === "string" ? message : "Uploading data. Please wait...", includeAnswerChangelog);
 
@@ -2999,8 +3023,8 @@ class ScreenWaitDataUpload extends ScreenWaitData {
     }
 
     /**
-    On start(), the screenController.requestDataCSV() is called with this.callbackUpload() as callback.
-    */
+     On start(), the screenController.requestDataCSV() is called with this.callbackUpload() as callback.
+     */
     start() {
         this.retryCount = 0;
 
@@ -3009,9 +3033,9 @@ class ScreenWaitDataUpload extends ScreenWaitData {
     }
 
     /**
-    Callback to upload data.
-    @param {string} data
-    */
+     Callback to upload data.
+     @param {string} data
+     */
     callbackUpload(data) {
         TheFragebogen.logger.info(this.constructor.name + ".callbackUpload()", "Starting upload to " + this.url);
 
@@ -3032,8 +3056,8 @@ class ScreenWaitDataUpload extends ScreenWaitData {
     }
 
     /**
-    Callback if upload was successful; screen is then ready to continue.
-    */
+     Callback if upload was successful; screen is then ready to continue.
+     */
     _onLoad() {
         if (this.request.readyState === 4 && this.request.status === 200) {
             TheFragebogen.logger.info(this.constructor.name + ".callbackUpload()", "Successful.");
@@ -3052,8 +3076,8 @@ class ScreenWaitDataUpload extends ScreenWaitData {
     }
 
     /**
-    Callback if upload failed and schedules a retry.
-    */
+     Callback if upload failed and schedules a retry.
+     */
     _onError(event) {
         const span = document.createElement("span");
         span.innerHTML = "" + "Upload failed. Retrying in 5 seconds.";
@@ -3064,8 +3088,8 @@ class ScreenWaitDataUpload extends ScreenWaitData {
     }
 
     /**
-    Callback if timeout.
-    */
+     Callback if timeout.
+     */
     _onTimeout() {
         TheFragebogen.logger.error(this.constructor.name + ".callbackUpload()", "Upload got timeout after " + this.time + "ms.");
         this._onError();
@@ -3086,23 +3110,23 @@ class ScreenWaitDataUpload extends ScreenWaitData {
 }
 
 /**
-A QuestionnaireItem that has a predefined set of answer and multiple of these can be selected.
-A group of checkboxes is used.
+ A QuestionnaireItem that has a predefined set of answer and multiple of these can be selected.
+ A group of checkboxes is used.
 
-@class QuestionnaireItemDefinedMulti
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemDefined
-*/
+ @class QuestionnaireItemDefinedMulti
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemDefined
+ */
 class QuestionnaireItemDefinedMulti extends QuestionnaireItemDefined {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} question
-    @param {boolean} [required=false]
-    @param {array} optionList
-    */
+     @param {string} [className] CSS class
+     @param {string} question
+     @param {boolean} [required=false]
+     @param {array} optionList
+     */
     constructor(className, question, required, optionList) {
         super(className, question, required, optionList);
 
@@ -3177,23 +3201,23 @@ class QuestionnaireItemDefinedMulti extends QuestionnaireItemDefined {
 }
 
 /**
-QuestionnaireItems that have a predefined set of answer and one of these can be selected.
-A group of radiobuttons is used.
+ QuestionnaireItems that have a predefined set of answer and one of these can be selected.
+ A group of radiobuttons is used.
 
-@class QuestionnaireItemDefinedOne
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemDefined
-*/
+ @class QuestionnaireItemDefinedOne
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemDefined
+ */
 class QuestionnaireItemDefinedOne extends QuestionnaireItemDefined {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} questions
-    @param {boolean} [required=false]
-    @param {array} optionList
-    */
+     @param {string} [className] CSS class
+     @param {string} questions
+     @param {boolean} [required=false]
+     @param {array} optionList
+     */
     constructor(className, question, required, optionList) {
         super(className, question, required, optionList);
 
@@ -3268,24 +3292,24 @@ class QuestionnaireItemDefinedOne extends QuestionnaireItemDefined {
 }
 
 /**
-A QuestionnaireItem that can be used to input number ranges.
-Uses the HTML input type="range".
+ A QuestionnaireItem that can be used to input number ranges.
+ Uses the HTML input type="range".
 
-@class QuestionnaireItemDefinedRange
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemDefined
-*/
+ @class QuestionnaireItemDefinedRange
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemDefined
+ */
 class QuestionnaireItemDefinedRange extends QuestionnaireItemDefined {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} question
-    @param {boolean} [required=false]
-    @param {int} [min] Minimal acceptable answer.
-    @param {int} [max] Maximal acceptable answer.
-    */
+     @param {string} [className] CSS class
+     @param {string} question
+     @param {boolean} [required=false]
+     @param {int} [min] Minimal acceptable answer.
+     @param {int} [max] Maximal acceptable answer.
+     */
     constructor(className, question, required, min, max) {
         super(className, question, required, [min, max]);
 
@@ -3327,23 +3351,23 @@ class QuestionnaireItemDefinedRange extends QuestionnaireItemDefined {
 }
 
 /**
-A QuestionnaireItem that has a predefined set of answer and one of these can be selected.
-A HTML select-element is used.
+ A QuestionnaireItem that has a predefined set of answer and one of these can be selected.
+ A HTML select-element is used.
 
-@class QuestionnaireItemDefinedSelector
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemDefined
-*/
+ @class QuestionnaireItemDefinedSelector
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemDefined
+ */
 class QuestionnaireItemDefinedSelector extends QuestionnaireItemDefined {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} question question
-    @param {boolean} [required=false]
-    @param {array} optionList
-    */
+     @param {string} [className] CSS class
+     @param {string} question question
+     @param {boolean} [required=false]
+     @param {array} optionList
+     */
     constructor(className, question, required, optionList) {
         super(className, question, required, optionList);
     }
@@ -3392,32 +3416,32 @@ class QuestionnaireItemDefinedSelector extends QuestionnaireItemDefined {
 }
 
 /**
-A QuestionnaireItemMedia that plays an audio file.
-NOTE: Useful to capture failure to loads.
-This item reports as an array audio playback statistics [url, duration, stallingCount, replayCount, audioStartTimes, audioPlayDurations].
-url corresponds to the array of all sources for this element.
-The duration is the total audio length in seconds.
-stallingCount counts how often a stalling event occured.
-replayCount counts how often the audio got replayed explicitly by the user.
-audioStartTimes are the points in time, relative to creation of the audio, when the audio started playing.
-audioPlayDurations are the times in seconds how long the audio played each time.
+ A QuestionnaireItemMedia that plays an audio file.
+ NOTE: Useful to capture failure to loads.
+ This item reports as an array audio playback statistics [url, duration, stallingCount, replayCount, audioStartTimes, audioPlayDurations].
+ url corresponds to the array of all sources for this element.
+ The duration is the total audio length in seconds.
+ stallingCount counts how often a stalling event occured.
+ replayCount counts how often the audio got replayed explicitly by the user.
+ audioStartTimes are the points in time, relative to creation of the audio, when the audio started playing.
+ audioPlayDurations are the times in seconds how long the audio played each time.
 
-@class QuestionnaireItemMediaAudio
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemMedia
-*/
+ @class QuestionnaireItemMediaAudio
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemMedia
+ */
 class QuestionnaireItemMediaAudio extends QuestionnaireItemMedia {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} [question]
-    @param {boolean} [required=false]
-    @param {string|array<string>} url The URL of the media element to be loaded; if supported by the browser also data URI.
-    @param {boolean} required Element must report ready before continue.
-    @param {boolean} [readyOnError=true] Sets ready=true if an error occures.
-    */
+     @param {string} [className] CSS class
+     @param {string} [question]
+     @param {boolean} [required=false]
+     @param {string|array<string>} url The URL of the media element to be loaded; if supported by the browser also data URI.
+     @param {boolean} required Element must report ready before continue.
+     @param {boolean} [readyOnError=true] Sets ready=true if an error occures.
+     */
     constructor(className, question, required, url, readyOnError) {
         super(className, question, required, url, readyOnError);
 
@@ -3530,25 +3554,25 @@ class QuestionnaireItemMediaAudio extends QuestionnaireItemMedia {
 }
 
 /**
-A QuestionnaireItemMedia that displays an image.
-NOTE: Useful to capture failure to loads.
+ A QuestionnaireItemMedia that displays an image.
+ NOTE: Useful to capture failure to loads.
 
-@class QuestionnaireItemMediaImage
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemMedia
-*/
+ @class QuestionnaireItemMediaImage
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemMedia
+ */
 class QuestionnaireItemMediaImage extends QuestionnaireItemMedia {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} [question]
-    @param {boolean} [required=false]
-    @param {string|array<string>} url The URL of the media element to be loaded; if supported by the browser also data URI.
-    @param {boolean} required Element must report ready before continue.
-    @param {boolean} [readyOnError=true] Sets ready=true if an error occures.
-    */
+     @param {string} [className] CSS class
+     @param {string} [question]
+     @param {boolean} [required=false]
+     @param {string|array<string>} url The URL of the media element to be loaded; if supported by the browser also data URI.
+     @param {boolean} required Element must report ready before continue.
+     @param {boolean} [readyOnError=true] Sets ready=true if an error occures.
+     */
     constructor(className, question, required, url, readyOnError) {
         super(className, question, required, url, readyOnError);
 
@@ -3592,33 +3616,33 @@ class QuestionnaireItemMediaImage extends QuestionnaireItemMedia {
 }
 
 /**
-A QuestionnaireItemMedia that plays a video.
-NOTE: Useful to capture failure to loads.
-This item reports as an array video playback statistics [url, duration, stallingCount, replayCount, videoStartTimes, videoPlayDurations].
-url corresponds to the array of all sources for this element.
-The duration is the total video length in seconds.
-stallingCount counts how often a stalling event occured.
-replayCount counts how often the video got replayed explicitly by the user.
-videoStartTimes are the points in time, relative to creation of the video, when the video started playing.
-videoPlayDurations are the times in seconds how long the video played each time.
+ A QuestionnaireItemMedia that plays a video.
+ NOTE: Useful to capture failure to loads.
+ This item reports as an array video playback statistics [url, duration, stallingCount, replayCount, videoStartTimes, videoPlayDurations].
+ url corresponds to the array of all sources for this element.
+ The duration is the total video length in seconds.
+ stallingCount counts how often a stalling event occured.
+ replayCount counts how often the video got replayed explicitly by the user.
+ videoStartTimes are the points in time, relative to creation of the video, when the video started playing.
+ videoPlayDurations are the times in seconds how long the video played each time.
 
-@class QuestionnaireItemMediaVideo
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemMedia
-*/
+ @class QuestionnaireItemMediaVideo
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemMedia
+ */
 class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} [question]
-    @param {boolean} [required=false]
-    @param {string|array<string>} url The URL of the media element to be loaded; if supported by the browser also data URI.
-    @param {boolean} required Element must report ready before continue.
-    @param {boolean} [readyOnError=true] Sets ready=true if an error occures.
-    @param {boolean} [videoPlaysInline=false] Play video within parent element.
-    */
+     @param {string} [className] CSS class
+     @param {string} [question]
+     @param {boolean} [required=false]
+     @param {string|array<string>} url The URL of the media element to be loaded; if supported by the browser also data URI.
+     @param {boolean} required Element must report ready before continue.
+     @param {boolean} [readyOnError=true] Sets ready=true if an error occures.
+     @param {boolean} [videoPlaysInline=false] Play video within parent element.
+     */
     constructor(className, question, required, url, readyOnError, videoPlaysInline) {
         super(className, question, required, url, readyOnError);
 
@@ -3731,24 +3755,24 @@ class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
 }
 
 /**
-A QuestionnaireItem presenting the NASA Task Load Index, cf. http://humansystems.arc.nasa.gov/groups/tlx/downloads/TLXScale.pdf
-See also the manual at http://humansystems.arc.nasa.gov/groups/tlx/downloads/TLX_pappen_manual.pdf
+ A QuestionnaireItem presenting the NASA Task Load Index, cf. http://humansystems.arc.nasa.gov/groups/tlx/downloads/TLXScale.pdf
+ See also the manual at http://humansystems.arc.nasa.gov/groups/tlx/downloads/TLX_pappen_manual.pdf
 
-@class QuestionnaireItemSVGNASATLX
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemSVG
-*/
+ @class QuestionnaireItemSVGNASATLX
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemSVG
+ */
 class QuestionnaireItemSVGNASATLX extends QuestionnaireItemSVG {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} question
-    @param {boolean} [required=false]
-    @param {string} [captionRight] The caption of the left label.
-    @param {string} [captionLeft] The caption of the right label.
-    */
+     @param {string} [className] CSS class
+     @param {string} question
+     @param {boolean} [required=false]
+     @param {string} [captionRight] The caption of the left label.
+     @param {string} [captionLeft] The caption of the right label.
+     */
     constructor(className, question, required, captionLeft, captionRight) {
         super(className, question, required);
 
@@ -3774,23 +3798,23 @@ class QuestionnaireItemSVGNASATLX extends QuestionnaireItemSVG {
 }
 
 /**
-A QuestionnaireItem presenting the 7pt Quality scale as defined in ITU-T P.851 p. 19.
-Labels are by default in German - the content of the labels is defined in the SVG.
+ A QuestionnaireItem presenting the 7pt Quality scale as defined in ITU-T P.851 p. 19.
+ Labels are by default in German - the content of the labels is defined in the SVG.
 
-@class QuestionnaireItemSVGQuality7pt
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemSVG
-*/
+ @class QuestionnaireItemSVGQuality7pt
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemSVG
+ */
 class QuestionnaireItemSVGQuality7pt extends QuestionnaireItemSVG {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} question
-    @param {boolean} [required=false]
-    @param {string[]} [labels=["NOTE: Default labels are defined in the SVG."]] The labels (7 items; evaluated to string)
-    */
+     @param {string} [className] CSS class
+     @param {string} question
+     @param {boolean} [required=false]
+     @param {string[]} [labels=["NOTE: Default labels are defined in the SVG."]] The labels (7 items; evaluated to string)
+     */
     constructor(className, question, required, labels) {
         super(className, question, required);
 
@@ -3827,24 +3851,24 @@ class QuestionnaireItemSVGQuality7pt extends QuestionnaireItemSVG {
 }
 
 /**
-A QuestionnaireItem presenting a Visual Analogue Scale (100pt).
+ A QuestionnaireItem presenting a Visual Analogue Scale (100pt).
 
-@class QuestionnaireItemSVGVisualAnalogueScale
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemSVG
-*/
+ @class QuestionnaireItemSVGVisualAnalogueScale
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemSVG
+ */
 class QuestionnaireItemSVGVisualAnalogueScale extends QuestionnaireItemSVG {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} question
-    @param {boolean} [required=false]
+     @param {string} [className] CSS class
+     @param {string} question
+     @param {boolean} [required=false]
 
-    @param {string} [captionRight] The caption of the left label.
-    @param {string} [captionLeft] The caption of the right label.
-    */
+     @param {string} [captionRight] The caption of the left label.
+     @param {string} [captionLeft] The caption of the right label.
+     */
     constructor(className, question, required, captionLeft, captionRight) {
         super(className, question, required);
 
@@ -3870,21 +3894,21 @@ class QuestionnaireItemSVGVisualAnalogueScale extends QuestionnaireItemSVG {
 }
 
 /**
-A QuestionnaireItem that gives a _constant_ answer.
-Useful for store information that are useful in the data to be exported.
+ A QuestionnaireItem that gives a _constant_ answer.
+ Useful for store information that are useful in the data to be exported.
 
-@class QuestionnaireItemSystemConst
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemSystem
-*/
+ @class QuestionnaireItemSystemConst
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemSystem
+ */
 class QuestionnaireItemSystemConst extends QuestionnaireItemSystem {
 
     /**
-    @param {string} question First slot for information.
-    @param {string} content Second slot for information.
-    */
+     @param {string} question First slot for information.
+     @param {string} content Second slot for information.
+     */
     constructor(question, content) {
         super(null, question, false);
         this.content = content;
@@ -3897,19 +3921,19 @@ class QuestionnaireItemSystemConst extends QuestionnaireItemSystem {
 }
 
 /**
-A QuestionnaireItemSystem that reports statistics on how long the focus was lost or gained.
+ A QuestionnaireItemSystem that reports statistics on how long the focus was lost or gained.
 
-Reports as an array of tuples [[inFocus, ms], ...].
-Each item states how long the survey was under focus (inFocus = true) or how long the focus was lost (inFocus = false).
-This QuestionnaireItemSystemFocus uses windows.addEventListener and windows.removeEventListener to listen for new events.
-All event listeners are attached as non-capturing.
+ Reports as an array of tuples [[inFocus, ms], ...].
+ Each item states how long the survey was under focus (inFocus = true) or how long the focus was lost (inFocus = false).
+ This QuestionnaireItemSystemFocus uses windows.addEventListener and windows.removeEventListener to listen for new events.
+ All event listeners are attached as non-capturing.
 
-@class QuestionnaireItemSystemFocus
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemSystem
-*/
+ @class QuestionnaireItemSystemFocus
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemSystem
+ */
 class QuestionnaireItemSystemFocus extends QuestionnaireItemSystem {
 
     constructor() {
@@ -3964,15 +3988,15 @@ class QuestionnaireItemSystemFocus extends QuestionnaireItemSystem {
 }
 
 /**
-A QuestionnaireItemSystem that stores the current date time when this element was used, i.e., `createUI()` called.
-The answer is the time and date when the function createUI() is called.
+ A QuestionnaireItemSystem that stores the current date time when this element was used, i.e., `createUI()` called.
+ The answer is the time and date when the function createUI() is called.
 
-@class QuestionnaireItemSystemScreenDateTime
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemSystem
-*/
+ @class QuestionnaireItemSystemScreenDateTime
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemSystem
+ */
 class QuestionnaireItemSystemScreenDateTime extends QuestionnaireItemSystem {
 
     constructor() {
@@ -3986,16 +4010,16 @@ class QuestionnaireItemSystemScreenDateTime extends QuestionnaireItemSystem {
 }
 
 /**
-A QuestionnaireItemSystem that stores the time it was shown, i.e., createUI() and releaseUI().
+ A QuestionnaireItemSystem that stores the time it was shown, i.e., createUI() and releaseUI().
 
-Reports in milliseconds.
+ Reports in milliseconds.
 
-@class QuestionnaireItemSystemScreenDuration
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemSystem
-*/
+ @class QuestionnaireItemSystemScreenDuration
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemSystem
+ */
 class QuestionnaireItemSystemScreenDuration extends QuestionnaireItemSystem {
 
     constructor() {
@@ -4015,15 +4039,15 @@ class QuestionnaireItemSystemScreenDuration extends QuestionnaireItemSystem {
 }
 
 /**
-A QuestionnaireItem that stores the current URL of the web browser.
+ A QuestionnaireItem that stores the current URL of the web browser.
 
-@class QuestionnaireItemSystemURL
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemSystem
-@augments QuestionnaireItemSystemConst
-*/
+ @class QuestionnaireItemSystemURL
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemSystem
+ @augments QuestionnaireItemSystemConst
+ */
 class QuestionnaireItemSystemURL extends QuestionnaireItemSystem {
 
     constructor() {
@@ -4037,17 +4061,17 @@ class QuestionnaireItemSystemURL extends QuestionnaireItemSystem {
 }
 
 /**
-A QuestionnaireItemSystem that stores the dimension of the viewport.
+ A QuestionnaireItemSystem that stores the dimension of the viewport.
 
-Reports the viewport as array [document.documentElement.clientWidth, document.documentElement.clientHeight] in pixels.
-It gets measured at the time of createUI().
+ Reports the viewport as array [document.documentElement.clientWidth, document.documentElement.clientHeight] in pixels.
+ It gets measured at the time of createUI().
 
-@class QuestionnaireItemSystemViewportSize
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemSystem
-*/
+ @class QuestionnaireItemSystemViewportSize
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemSystem
+ */
 class QuestionnaireItemSystemViewportSize extends QuestionnaireItemSystem {
 
     constructor() {
@@ -4061,21 +4085,21 @@ class QuestionnaireItemSystemViewportSize extends QuestionnaireItemSystem {
 }
 
 /**
-A QuestionnaireItemSystem that waits for a defined number of seconds before setting itself ready.
+ A QuestionnaireItemSystem that waits for a defined number of seconds before setting itself ready.
 
-No UI is displayed.
+ No UI is displayed.
 
-@class QuestionnaireItemSystemWait
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemSystem
-*/
+ @class QuestionnaireItemSystemWait
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemSystem
+ */
 class QuestionnaireItemSystemWait extends QuestionnaireItemSystem {
 
     /**
-    @param {number} waitTime waiting time in milliseconds
-    */
+     @param {number} waitTime waiting time in milliseconds
+     */
     constructor(waitTime) {
         super(null, "", true);
         this.waitTime = waitTime;
@@ -4103,27 +4127,27 @@ class QuestionnaireItemSystemWait extends QuestionnaireItemSystem {
 }
 
 /**
-A QuestionnaireItemMediaAudio that adds a repeat button to the audio
-For other details see {@link QuestionnaireItemMediaAudio}.
+ A QuestionnaireItemMediaAudio that adds a repeat button to the audio
+ For other details see {@link QuestionnaireItemMediaAudio}.
 
-@class QuestionnaireItemMediaAudioRepeatable
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemMedia
-@augments QuestionnaireItemMediaAudio
-*/
+ @class QuestionnaireItemMediaAudioRepeatable
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemMedia
+ @augments QuestionnaireItemMediaAudio
+ */
 class QuestionnaireItemMediaAudioRepeatable extends QuestionnaireItemMediaAudio {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} [question]
-    @param {boolean} [required=false]
-    @param {string|array<string>} url The URL of the media element to be loaded; if supported by the browser also data URI.
-    @param {boolean} required Element must report ready before continue.
-    @param {boolean} [readyOnError=true] Sets ready=true if an error occures.
-    @param {string} buttonCaption The string shown in the replay button.
-    */
+     @param {string} [className] CSS class
+     @param {string} [question]
+     @param {boolean} [required=false]
+     @param {string|array<string>} url The URL of the media element to be loaded; if supported by the browser also data URI.
+     @param {boolean} required Element must report ready before continue.
+     @param {boolean} [readyOnError=true] Sets ready=true if an error occures.
+     @param {string} buttonCaption The string shown in the replay button.
+     */
     constructor(className, question, required, url, readyOnError, buttonCaption) {
         super(className, question, required, url, readyOnError);
 
@@ -4150,27 +4174,27 @@ class QuestionnaireItemMediaAudioRepeatable extends QuestionnaireItemMediaAudio 
 }
 
 /**
-A QuestionnaireItemMediaVideo that adds a repeat button to the video.
-For other details see {@link QuestionnaireItemMediaVideo}.
+ A QuestionnaireItemMediaVideo that adds a repeat button to the video.
+ For other details see {@link QuestionnaireItemMediaVideo}.
 
-@class QuestionnaireItemMediaVideoRepeatable
-@augments UIElement
-@augments UIElementInteractive
-@augments QuestionnaireItem
-@augments QuestionnaireItemMedia
-@augments QuestionnaireItemMediaVideo
-*/
+ @class QuestionnaireItemMediaVideoRepeatable
+ @augments UIElement
+ @augments UIElementInteractive
+ @augments QuestionnaireItem
+ @augments QuestionnaireItemMedia
+ @augments QuestionnaireItemMediaVideo
+ */
 class QuestionnaireItemMediaVideoRepeatable extends QuestionnaireItemMediaVideo {
 
     /**
-    @param {string} [className] CSS class
-    @param {string} [question]
-    @param {boolean} [required=false]
-    @param {string|array<string>} url The URL of the media element to be loaded; if supported by the browser also data URI.
-    @param {boolean} required Element must report ready before continue.
-    @param {boolean} [readyOnError=true] Sets ready=true if an error occures.
-    @param {string} buttonCaption The string shown in the replay button.
-    */
+     @param {string} [className] CSS class
+     @param {string} [question]
+     @param {boolean} [required=false]
+     @param {string|array<string>} url The URL of the media element to be loaded; if supported by the browser also data URI.
+     @param {boolean} required Element must report ready before continue.
+     @param {boolean} [readyOnError=true] Sets ready=true if an error occures.
+     @param {string} buttonCaption The string shown in the replay button.
+     */
     constructor(className, question, required, url, readyOnError, buttonCaption) {
         super(className, question, required, url, readyOnError);
 

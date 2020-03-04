@@ -15,3 +15,4 @@ test-pageToMongoose.js
 feedback.csv
 index2.js
 public/log/*
+openssl/*

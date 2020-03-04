@@ -1,9 +1,9 @@
 // using express to host page
 const express = require('express');
 const app = express();
-var bodyParser = require('body-parser');
+// var bodyParser = require('body-parser');
 // app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.raw({ extended: true })); // for parsing application/x-www-form-urlencoded
+// app.use(bodyParser.raw({ extended: true })); // for parsing application/x-www-form-urlencoded
 // app.use(bodyParser.raw({type: 'application/'}));
 // var urlencodedParser = bodyParser.urlencoded({ extended: true });
 
